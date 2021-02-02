@@ -1,0 +1,9 @@
+[workspace]
+
+members = [
+    "kata-debug-console",
+    "kata-io",
+    "kata-line-reader",
+    "kata-shell",
+    "kata-uart-client",
+]

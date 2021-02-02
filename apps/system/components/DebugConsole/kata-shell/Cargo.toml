@@ -1,0 +1,9 @@
+[package]
+name = "kata-shell"
+version = "0.1.0"
+authors = ["Matt Harvey <mattharvey@google.com>"]
+edition = "2018"
+
+[dependencies]
+kata-io = { path = "../kata-io" }
+kata-line-reader = { path = "../kata-line-reader" }
