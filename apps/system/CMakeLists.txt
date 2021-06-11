@@ -29,6 +29,19 @@ DeclareCAmkESComponent(DebugConsole
   LIBS kata_debug_console
 )
 
+RustAddLibrary(
+  kata_process_manager
+  SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/components/ProcessManager
+  TARGET "riscv32imc-unknown-none-elf"
+  LIB_FILENAME libkata_process_manager.a
+)
+
+DeclareCAmkESComponent(ProcessManager
+  LIBS kata_process_manager
+  INCLUDES interfaces
+)
+
+
 DeclareCAmkESComponent(UartDriver
   SOURCES components/UartDriver/src/driver.c
 )
