@@ -12,17 +12,12 @@
 // std:: requires at least an allocator, which Kata does not have yet. For now
 // the CLI will be implemented with only core::.
 #![no_std]
-// NB: not really what we want but resolves undefineds for now
-#![feature(default_alloc_error_handler)]
 
 extern crate panic_halt;
 
+use kata_allocator;
 use kata_shell;
 use kata_uart_client;
-use linked_list_allocator::LockedHeap;
-
-#[global_allocator]
-static KATA_ALLOCATOR: LockedHeap = LockedHeap::empty();
 
 #[no_mangle]
 // NB: use post_init insted of pre_init so syslog interface is setup
@@ -30,9 +25,7 @@ pub extern "C" fn post_init() {
     // TODO(sleffler): temp until we integrate with seL4
     static mut HEAP_MEMORY: [u8; 16 * 1024] = [0; 16 * 1024];
     unsafe {
-        KATA_ALLOCATOR
-            .lock()
-            .init(HEAP_MEMORY.as_mut_ptr() as usize, HEAP_MEMORY.len());
+        kata_allocator::ALLOCATOR.init(HEAP_MEMORY.as_mut_ptr() as usize, HEAP_MEMORY.len());
     }
 }
 

@@ -7,9 +7,9 @@ description = "Kata OS DebugConsole"
 
 [dependencies]
 panic-halt = "0.2.0"
+kata-allocator = { path = "../kata-allocator" }
 kata-shell = { path = "../kata-shell" }
 kata-uart-client = { path = "../kata-uart-client" }
-linked_list_allocator = "0.9"
 
 [lib]
 name = "kata_debug_console"
