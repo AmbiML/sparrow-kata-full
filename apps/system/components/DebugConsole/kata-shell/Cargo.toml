@@ -5,6 +5,8 @@ authors = ["Matt Harvey <mattharvey@google.com>"]
 edition = "2018"
 
 [dependencies]
+cstr_core = "0.2"
 kata-io = { path = "../kata-io" }
 kata-line-reader = { path = "../kata-line-reader" }
+kata-proc-common = { path = "../../ProcessManager/kata-proc-common" }
 log = "0.4"

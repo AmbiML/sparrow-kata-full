@@ -2,6 +2,7 @@
 
 members = [
     "kata-proc-common",
+    "kata-proc-component",
     "kata-proc-manager",
 ]
 

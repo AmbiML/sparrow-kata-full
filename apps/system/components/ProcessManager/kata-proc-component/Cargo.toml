@@ -1,0 +1,18 @@
+[package]
+name = "kata-proc-component"
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+cstr_core = { version = "0.2.3", default-features = false }
+kata-allocator = { path = "../../DebugConsole/kata-allocator" }
+kata-logger = { path = "../../DebugConsole/kata-logger" }
+kata-panic = { path = "../../DebugConsole/kata-panic" }
+kata-proc-common = { path = "../kata-proc-common" }
+kata-proc-manager = { path = "../kata-proc-manager" }
+log = "0.4"
+
+[lib]
+name = "kata_process_manager"
+path = "src/run.rs"
+crate-type = ["staticlib"]
