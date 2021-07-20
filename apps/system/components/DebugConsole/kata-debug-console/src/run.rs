@@ -16,8 +16,18 @@
 extern crate panic_halt;
 
 use kata_allocator;
+use kata_logger::KataLogger;
 use kata_shell;
 use kata_uart_client;
+use log::debug;
+
+static KATA_LOGGER: KataLogger = KataLogger;
+
+#[no_mangle]
+pub extern "C" fn pre_init() {
+    log::set_logger(&KATA_LOGGER).unwrap();
+    log::set_max_level(log::LevelFilter::Debug);
+}
 
 #[no_mangle]
 // NB: use post_init insted of pre_init so syslog interface is setup
@@ -32,6 +42,7 @@ pub extern "C" fn post_init() {
 /// Entry point for DebugConsole. Runs the shell with UART IO.
 #[no_mangle]
 pub extern "C" fn run() -> ! {
+    debug!("run");
     let mut tx = kata_uart_client::Tx {};
     let mut rx = kata_uart_client::Rx {};
     kata_shell::repl(&mut tx, &mut rx);

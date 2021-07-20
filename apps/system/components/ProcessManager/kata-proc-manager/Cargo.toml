@@ -7,7 +7,9 @@ edition = "2018"
 [dependencies]
 arrayvec = { version = "0.7", default-features = false }
 kata-allocator = { path = "../../DebugConsole/kata-allocator" }
+kata-logger = { path = "../../DebugConsole/kata-logger" }
 kata-proc-common = { path = "../kata-proc-common" }
+log = "0.4"
 panic-halt = "0.2.0"
 
 [lib]

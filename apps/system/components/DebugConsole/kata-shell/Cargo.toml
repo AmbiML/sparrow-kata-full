@@ -7,3 +7,4 @@ edition = "2018"
 [dependencies]
 kata-io = { path = "../kata-io" }
 kata-line-reader = { path = "../kata-line-reader" }
+log = "0.4"

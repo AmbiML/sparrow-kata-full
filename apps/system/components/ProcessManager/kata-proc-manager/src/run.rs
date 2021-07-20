@@ -10,10 +10,20 @@ extern crate panic_halt;
 
 use arrayvec::ArrayVec;
 use core::marker::Sync;
+use log::debug;
 
 use kata_allocator;
+use kata_logger::KataLogger;
 use kata_proc_common as proc;
 use proc::*;
+
+static KATA_LOGGER: KataLogger = KataLogger;
+
+#[no_mangle]
+pub extern "C" fn pre_init() {
+    log::set_logger(&KATA_LOGGER).unwrap();
+    log::set_max_level(log::LevelFilter::Debug);
+}
 
 #[no_mangle]
 // NB: use post_init insted of pre_init so logger is setup
@@ -30,6 +40,7 @@ pub extern "C" fn post_init() {
 pub extern "C" fn run() {
     // Setup the userland address spaces, lifecycles, and system introspection
     // for third-party applications.
+    debug!("run");
 }
 
 // Bundle state tracks start/stop operations.
