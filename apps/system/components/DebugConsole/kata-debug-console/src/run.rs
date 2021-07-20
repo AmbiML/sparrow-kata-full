@@ -9,11 +9,9 @@
 // * kata_shell
 // * kata_debug_console main entry point fn run()
 
-// std:: requires at least an allocator, which Kata does not have yet. For now
-// the CLI will be implemented with only core::.
 #![no_std]
 
-extern crate panic_halt;
+extern crate kata_panic;
 
 use kata_allocator;
 use kata_logger::KataLogger;
