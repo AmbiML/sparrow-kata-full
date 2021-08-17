@@ -15,7 +15,8 @@ use log::{info, trace};
 pub extern "C" fn pre_init() {
     static KATA_LOGGER: KataLogger = KataLogger;
     log::set_logger(&KATA_LOGGER).unwrap();
-    log::set_max_level(log::LevelFilter::Debug);
+    // NB: set to max; the LoggerInterface will filter
+    log::set_max_level(log::LevelFilter::Trace);
 
     // TODO(sleffler): temp until we integrate with seL4
     static mut HEAP_MEMORY: [u8; 16 * 1024] = [0; 16 * 1024];
