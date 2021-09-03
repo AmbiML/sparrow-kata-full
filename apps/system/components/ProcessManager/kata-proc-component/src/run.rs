@@ -9,7 +9,7 @@ use kata_allocator;
 use kata_logger::KataLogger;
 use kata_proc_common::*;
 use kata_proc_manager::KATA_PROC;
-use log::{info, trace};
+use log::trace;
 
 #[no_mangle]
 pub extern "C" fn pre_init() {
@@ -22,25 +22,29 @@ pub extern "C" fn pre_init() {
     static mut HEAP_MEMORY: [u8; 16 * 1024] = [0; 16 * 1024];
     unsafe {
         kata_allocator::ALLOCATOR.init(HEAP_MEMORY.as_mut_ptr() as usize, HEAP_MEMORY.len());
+        trace!(
+            "setup heap: start_addr {:p} size {}",
+            HEAP_MEMORY.as_ptr(),
+            HEAP_MEMORY.len()
+        );
     }
 
     // Complete KATA_PROC setup. This is as early as we can do it given that
     // it needs the GlobalAllocator.
     unsafe {
         KATA_PROC.init();
-        info!(
+        trace!(
             "ProcessManager has capacity for {} bundles",
             KATA_PROC.capacity()
         );
     }
 }
 
-// TODO(sleffler): move to init or similar if a thread isn't needed
 #[no_mangle]
-pub extern "C" fn run() {
+pub extern "C" fn pkg_mgmt__init() {
     // Setup the userland address spaces, lifecycles, and system introspection
     // for third-party applications.
-    trace!("run");
+    trace!("init");
 }
 
 // PackageManagerInterface glue stubs.

@@ -5,24 +5,24 @@
 extern crate kata_panic;
 
 use kata_logger::KataLogger;
-use log::debug;
-
-static KATA_LOGGER: KataLogger = KataLogger;
+use log::trace;
 
 #[no_mangle]
 pub extern "C" fn pre_init() {
+    static KATA_LOGGER: KataLogger = KataLogger;
     log::set_logger(&KATA_LOGGER).unwrap();
-    log::set_max_level(log::LevelFilter::Debug);
+    log::set_max_level(log::LevelFilter::Trace);
 }
 
 #[no_mangle]
-pub extern "C" fn run() {
-    debug!("run");
+pub extern "C" fn mlcoord__init() {
+    // TODO(sleffler): maybe not needed?
+    trace!("init");
 }
 
 // TODO: Move out of this file into separate (auto-generated?) file.
 // TODO: Consider the modular_bitfield crate to represent bitfields.
-fn vctop_ctrl(freeze: u32, vc_reset: u32, pc_start: u32) -> u32  {
+fn vctop_ctrl(freeze: u32, vc_reset: u32, pc_start: u32) -> u32 {
     (pc_start << 2) + ((vc_reset & 1) << 1) + (freeze & 1)
 }
 
