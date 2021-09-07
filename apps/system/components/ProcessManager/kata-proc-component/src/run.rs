@@ -4,9 +4,11 @@
 #![no_std]
 
 use cstr_core::CStr;
-extern crate kata_panic;
+extern crate alloc;
+use alloc::vec;
 use kata_allocator;
 use kata_logger::KataLogger;
+extern crate kata_panic;
 use kata_proc_common::*;
 use kata_proc_manager::KATA_PROC;
 use log::trace;
@@ -50,25 +52,32 @@ pub extern "C" fn pkg_mgmt__init() {
 // PackageManagerInterface glue stubs.
 #[no_mangle]
 pub extern "C" fn pkg_mgmt_install(
-    bundle_id: *const cstr_core::c_char,
-    bundle: Bundle,
+    c_pkg_buffer_sz: usize,
+    c_pkg_buffer: *const u8,
+    c_raw_data: *mut RawBundleIdData,
 ) -> ProcessManagerError {
     unsafe {
-        match CStr::from_ptr(bundle_id).to_str() {
-            Ok(str) => match KATA_PROC.install(str, &bundle) {
-                Ok(_) => ProcessManagerError::Success,
-                Err(e) => e,
-            },
-            Err(_) => ProcessManagerError::BundleIdInvalid,
+        match KATA_PROC.install(c_pkg_buffer, c_pkg_buffer_sz) {
+            Ok(bundle_id) => {
+                match RawBundleIdData::from_raw(
+                    &mut *(c_raw_data as *mut [u8; RAW_BUNDLE_ID_DATA_SIZE]),
+                )
+                .pack_bundles(&vec![bundle_id])
+                {
+                    Ok(_) => ProcessManagerError::Success,
+                    Err(_) => ProcessManagerError::BundleDataInvalid,
+                }
+            }
+            Err(e) => e,
         }
     }
 }
 
 #[no_mangle]
-pub extern "C" fn pkg_mgmt_uninstall(bundle_id: *const cstr_core::c_char) -> ProcessManagerError {
+pub extern "C" fn pkg_mgmt_uninstall(c_bundle_id: *const cstr_core::c_char) -> ProcessManagerError {
     unsafe {
-        match CStr::from_ptr(bundle_id).to_str() {
-            Ok(str) => match KATA_PROC.uninstall(str) {
+        match CStr::from_ptr(c_bundle_id).to_str() {
+            Ok(bundle_id) => match KATA_PROC.uninstall(bundle_id) {
                 Ok(_) => ProcessManagerError::Success,
                 Err(e) => e,
             },
@@ -79,10 +88,10 @@ pub extern "C" fn pkg_mgmt_uninstall(bundle_id: *const cstr_core::c_char) -> Pro
 
 // ProcessControlInterface glue stubs.
 #[no_mangle]
-pub extern "C" fn proc_ctrl_start(bundle_id: *const cstr_core::c_char) -> ProcessManagerError {
+pub extern "C" fn proc_ctrl_start(c_bundle_id: *const cstr_core::c_char) -> ProcessManagerError {
     unsafe {
-        match CStr::from_ptr(bundle_id).to_str() {
-            Ok(str) => match KATA_PROC.start(str) {
+        match CStr::from_ptr(c_bundle_id).to_str() {
+            Ok(bundle_id) => match KATA_PROC.start(bundle_id) {
                 Ok(_) => ProcessManagerError::Success,
                 Err(e) => e,
             },
