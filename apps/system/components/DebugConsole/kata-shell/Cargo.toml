@@ -10,3 +10,4 @@ kata-io = { path = "../kata-io" }
 kata-line-reader = { path = "../kata-line-reader" }
 kata-proc-common = { path = "../../ProcessManager/kata-proc-common" }
 log = "0.4"
+postcard = { version = "0.7", features = ["alloc"] }
