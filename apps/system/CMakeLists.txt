@@ -55,6 +55,18 @@ DeclareCAmkESComponent(MlCoordinator
   INCLUDES interfaces
 )
 
+RustAddLibrary(
+  kata_security_coordinator
+  SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/components/SecurityCoordinator
+  TARGET "riscv32imc-unknown-none-elf"
+  LIB_FILENAME libkata_security_coordinator.a
+)
+
+DeclareCAmkESComponent(SecurityCoordinator
+  LIBS kata_security_coordinator
+  INCLUDES interfaces
+)
+
 DeclareCAmkESComponent(LogFibonacci
   SOURCES
   components/LogFibonacci/src/main.c

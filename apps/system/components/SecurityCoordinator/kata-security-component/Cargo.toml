@@ -1,0 +1,17 @@
+[package]
+name = "kata-security-component"
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+kata-allocator = { path = "../../DebugConsole/kata-allocator" }
+kata-logger = { path = "../../DebugConsole/kata-logger" }
+kata-panic = { path = "../../DebugConsole/kata-panic" }
+kata-security-common = { path = "../kata-security-common" }
+kata-security-coordinator = { path = "../kata-security-coordinator" }
+log = "0.4"
+
+[lib]
+name = "kata_security_coordinator"
+path = "src/run.rs"
+crate-type = ["staticlib"]

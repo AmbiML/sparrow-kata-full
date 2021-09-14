@@ -9,5 +9,6 @@ cstr_core = "0.2"
 kata-io = { path = "../kata-io" }
 kata-line-reader = { path = "../kata-line-reader" }
 kata-proc-common = { path = "../../ProcessManager/kata-proc-common" }
+kata-security-common = { path = "../../SecurityCoordinator/kata-security-common" }
 log = "0.4"
 postcard = { version = "0.7", features = ["alloc"] }
