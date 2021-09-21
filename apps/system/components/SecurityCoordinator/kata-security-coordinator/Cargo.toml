@@ -3,6 +3,11 @@ name = "kata-security-coordinator"
 version = "0.1.0"
 edition = "2018"
 
+[features]
+default = ["fake"]  # TODO(sleffler): sel4 once it exists
+fake = []
+sel4 = []
+
 [dependencies]
 kata-security-common = { path = "../kata-security-common" }
 log = "0.4"
