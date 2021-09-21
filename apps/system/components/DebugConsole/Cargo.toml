@@ -7,6 +7,7 @@ members = [
     "kata-logger",
     "kata-shell",
     "kata-uart-client",
+    "zmodem",
 ]
 
 [profile.dev]
