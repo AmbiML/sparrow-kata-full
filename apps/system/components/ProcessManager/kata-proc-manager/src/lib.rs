@@ -4,12 +4,12 @@
 
 extern crate alloc;
 use alloc::string::String;
-use core::slice;
 use kata_proc_common::*;
 use kata_security_interface::kata_security_request;
+use kata_security_interface::InstallRequest;
 use kata_security_interface::SecurityRequest;
+use kata_security_interface::UninstallRequest;
 use kata_security_interface::SECURITY_REPLY_DATA_SIZE;
-use kata_security_interface::SECURITY_REQUEST_DATA_SIZE;
 use log::trace;
 use postcard;
 use spin::Mutex;
@@ -95,7 +95,10 @@ impl ProcessManagerInterface for KataManagerInterface {
         let reply = &mut [0u8; SECURITY_REPLY_DATA_SIZE];
         match kata_security_request(
             SecurityRequest::SrInstall,
-            unsafe { slice::from_raw_parts(pkg_buffer, pkg_buffer_size as usize) },
+            &InstallRequest {
+                pkg_buffer_size: pkg_buffer_size,
+                pkg_buffer: pkg_buffer,
+            },
             reply,
         ) {
             Ok(_) => {
@@ -112,19 +115,18 @@ impl ProcessManagerInterface for KataManagerInterface {
         }
     }
     fn uninstall(&mut self, bundle_id: &str) -> Result<(), ProcessManagerError> {
-        fn serialize_failure(e: postcard::Error) -> ProcessManagerError {
-            trace!("uninstall failed: serialize {:?}", e);
-            ProcessManagerError::UninstallFailed
-        }
-
         // NB: the caller has already checked no running application exists
         // NB: the Security Core is assumed to invalidate/remove any kv store
 
         // This is handled by the SecurityCoordinator.
-        let mut request_data = [0u8; SECURITY_REQUEST_DATA_SIZE];
-        let _ = postcard::to_slice(&bundle_id, &mut request_data).map_err(serialize_failure)?;
         let reply = &mut [0u8; SECURITY_REPLY_DATA_SIZE];
-        match kata_security_request(SecurityRequest::SrUninstall, &request_data, reply) {
+        match kata_security_request(
+            SecurityRequest::SrUninstall,
+            &UninstallRequest {
+                bundle_id: &bundle_id,
+            },
+            reply,
+        ) {
             Ok(_) => Ok(()),
             Err(status) => {
                 trace!("uninstall failed: {:?}", status);

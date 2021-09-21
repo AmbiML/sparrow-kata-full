@@ -7,4 +7,3 @@ edition = "2018"
 kata-security-interface = { path = "../../SecurityCoordinator/kata-security-interface" }
 kata-storage-interface = { path = "../kata-storage-interface" }
 log = "0.4"
-postcard = "0.7"
