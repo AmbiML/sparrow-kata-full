@@ -9,6 +9,8 @@ fake = []
 sel4 = []
 
 [dependencies]
+hashbrown = { version = "0.11", features = ["ahash-compile-time-rng"] }
 kata-security-common = { path = "../kata-security-common" }
+kata-storage-interface = { path = "../../StorageManager/kata-storage-interface" }
 log = "0.4"
 postcard = "0.7"

@@ -67,6 +67,18 @@ DeclareCAmkESComponent(SecurityCoordinator
   INCLUDES interfaces
 )
 
+RustAddLibrary(
+  kata_storage_manager
+  SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/components/StorageManager
+  TARGET "riscv32imc-unknown-none-elf"
+  LIB_FILENAME libkata_storage_manager.a
+)
+
+DeclareCAmkESComponent(StorageManager
+  LIBS kata_storage_manager
+  INCLUDES interfaces
+)
+
 DeclareCAmkESComponent(LogFibonacci
   SOURCES
   components/LogFibonacci/src/main.c

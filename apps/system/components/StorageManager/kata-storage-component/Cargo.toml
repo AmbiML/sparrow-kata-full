@@ -1,0 +1,19 @@
+[package]
+name = "kata-storage-component"
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+cstr_core = { version = "0.2.3", default-features = false }
+kata-allocator = { path = "../../DebugConsole/kata-allocator" }
+kata-logger = { path = "../../DebugConsole/kata-logger" }
+kata-panic = { path = "../../DebugConsole/kata-panic" }
+kata-storage-interface = { path = "../kata-storage-interface" }
+kata-storage-manager = { path = "../kata-storage-manager" }
+log = "0.4"
+postcard = "0.7"
+
+[lib]
+name = "kata_storage_manager"
+path = "src/run.rs"
+crate-type = ["staticlib"]
