@@ -11,6 +11,7 @@
 
 #![no_std]
 
+#[cfg(not(test))]
 extern crate kata_panic;
 
 use kata_allocator;

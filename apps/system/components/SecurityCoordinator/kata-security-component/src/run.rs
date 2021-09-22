@@ -6,6 +6,7 @@
 use core::slice;
 use kata_allocator;
 use kata_logger::KataLogger;
+#[cfg(not(test))]
 extern crate kata_panic;
 use kata_security_common::*;
 use kata_security_coordinator::KATA_SECURITY;
