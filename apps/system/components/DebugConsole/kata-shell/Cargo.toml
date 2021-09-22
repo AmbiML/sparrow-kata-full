@@ -5,7 +5,9 @@ authors = ["Matt Harvey <mattharvey@google.com>"]
 edition = "2018"
 
 [dependencies]
+crc = { version = "1.4.0", default_features = false }
 cstr_core = "0.2"
+hex = { version = "0.4.3", default-features = false, features = ["alloc"] }
 kata-io = { path = "../kata-io" }
 kata-line-reader = { path = "../kata-line-reader" }
 kata-proc-common = { path = "../../ProcessManager/kata-proc-common" }
@@ -13,3 +15,4 @@ kata-security-interface = { path = "../../SecurityCoordinator/kata-security-inte
 kata-storage-interface = { path = "../../StorageManager/kata-storage-interface" }
 log = "0.4"
 postcard = { version = "0.7", features = ["alloc"], default-features = false }
+zmodem = { path = "../zmodem" }
