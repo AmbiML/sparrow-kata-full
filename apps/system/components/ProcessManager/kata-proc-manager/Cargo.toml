@@ -6,7 +6,7 @@ edition = "2018"
 
 [dependencies]
 hashbrown = { version = "0.11", features = ["ahash-compile-time-rng"] }
-kata-proc-common = { path = "../kata-proc-common" }
+kata-proc-interface = { path = "../kata-proc-interface" }
 kata-security-interface = { path = "../../SecurityCoordinator/kata-security-interface" }
 log = "0.4"
 postcard = { version = "0.7", features = ["alloc"], default-features = false }

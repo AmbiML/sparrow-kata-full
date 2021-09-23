@@ -1,8 +1,8 @@
 [workspace]
 
 members = [
-    "kata-proc-common",
     "kata-proc-component",
+    "kata-proc-interface",
     "kata-proc-manager",
 ]
 

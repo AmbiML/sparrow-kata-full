@@ -7,7 +7,7 @@ use cstr_core::CStr;
 use kata_allocator;
 use kata_logger::KataLogger;
 extern crate kata_panic;
-use kata_proc_common::*;
+use kata_proc_interface::*;
 use kata_proc_manager::KATA_PROC;
 use log::trace;
 use postcard;
@@ -55,60 +55,46 @@ pub extern "C" fn pkg_mgmt_install(
     c_pkg_buffer: *const u8,
     c_raw_data: *mut RawBundleIdData,
 ) -> ProcessManagerError {
-    unsafe {
-        match KATA_PROC.install(c_pkg_buffer, c_pkg_buffer_sz) {
-            Ok(bundle_id) => match postcard::to_slice(&bundle_id, &mut (*c_raw_data)[..]) {
-                Ok(_) => ProcessManagerError::Success,
-                Err(e) => {
-                    trace!("install failed: serialize {:?}", e);
-                    ProcessManagerError::BundleDataInvalid
-                }
-            },
-            Err(status) => {
-                trace!("install failed: {:?}", status);
-                status
-            }
-        }
+    match unsafe { KATA_PROC.install(c_pkg_buffer, c_pkg_buffer_sz) } {
+        Ok(bundle_id) => match unsafe { postcard::to_slice(&bundle_id, &mut (*c_raw_data)[..]) } {
+            Ok(_) => ProcessManagerError::Success,
+            Err(_) => ProcessManagerError::DeserializeError,
+        },
+        Err(e) => e,
     }
 }
 
 #[no_mangle]
 pub extern "C" fn pkg_mgmt_uninstall(c_bundle_id: *const cstr_core::c_char) -> ProcessManagerError {
-    unsafe {
-        match CStr::from_ptr(c_bundle_id).to_str() {
-            Ok(bundle_id) => match KATA_PROC.uninstall(bundle_id) {
-                Ok(_) => ProcessManagerError::Success,
-                Err(e) => e,
-            },
-            Err(_) => ProcessManagerError::BundleIdInvalid,
-        }
+    match unsafe { CStr::from_ptr(c_bundle_id).to_str() } {
+        Ok(bundle_id) => match unsafe { KATA_PROC.uninstall(bundle_id) } {
+            Ok(_) => ProcessManagerError::Success,
+            Err(e) => e,
+        },
+        Err(_) => ProcessManagerError::BundleIdInvalid,
     }
 }
 
 // ProcessControlInterface glue stubs.
 #[no_mangle]
 pub extern "C" fn proc_ctrl_start(c_bundle_id: *const cstr_core::c_char) -> ProcessManagerError {
-    unsafe {
-        match CStr::from_ptr(c_bundle_id).to_str() {
-            Ok(bundle_id) => match KATA_PROC.start(bundle_id) {
-                Ok(_) => ProcessManagerError::Success,
-                Err(e) => e,
-            },
-            Err(_) => ProcessManagerError::BundleIdInvalid,
-        }
+    match unsafe { CStr::from_ptr(c_bundle_id).to_str() } {
+        Ok(bundle_id) => match unsafe { KATA_PROC.start(bundle_id) } {
+            Ok(_) => ProcessManagerError::Success,
+            Err(e) => e,
+        },
+        Err(_) => ProcessManagerError::BundleIdInvalid,
     }
 }
 
 #[no_mangle]
-pub extern "C" fn proc_ctrl_stop(bundle_id: *const cstr_core::c_char) -> ProcessManagerError {
-    unsafe {
-        match CStr::from_ptr(bundle_id).to_str() {
-            Ok(str) => match KATA_PROC.stop(str) {
-                Ok(_) => ProcessManagerError::Success,
-                Err(e) => e,
-            },
-            Err(_) => ProcessManagerError::BundleIdInvalid,
-        }
+pub extern "C" fn proc_ctrl_stop(c_bundle_id: *const cstr_core::c_char) -> ProcessManagerError {
+    match unsafe { CStr::from_ptr(c_bundle_id).to_str() } {
+        Ok(str) => match unsafe { KATA_PROC.stop(str) } {
+            Ok(_) => ProcessManagerError::Success,
+            Err(e) => e,
+        },
+        Err(_) => ProcessManagerError::BundleIdInvalid,
     }
 }
 
@@ -116,24 +102,16 @@ pub extern "C" fn proc_ctrl_stop(bundle_id: *const cstr_core::c_char) -> Process
 pub extern "C" fn proc_ctrl_get_running_bundles(
     c_raw_data: *mut RawBundleIdData,
 ) -> ProcessManagerError {
-    unsafe {
-        match KATA_PROC.get_running_bundles() {
-            Ok(bundles) => {
-                // Serialize the bundle_id's in the result buffer. If we
-                // overflow the buffer, BundleDataInvalid is returned and
-                // the contents are undefined (postcard does not specify).
-                match postcard::to_slice(&bundles, &mut (*c_raw_data)[..]) {
-                    Ok(_) => ProcessManagerError::Success,
-                    Err(e) => {
-                        trace!("get_running_bundles failed: serialize {:?}", e);
-                        ProcessManagerError::BundleDataInvalid
-                    }
-                }
-            }
-            Err(status) => {
-                trace!("get_running_bundles failed: {:?}", status);
-                status
+    match unsafe { KATA_PROC.get_running_bundles() } {
+        Ok(bundles) => {
+            // Serialize the bundle_id's in the result buffer. If we
+            // overflow the buffer, an error is returned and the
+            // contents are undefined (postcard does not specify).
+            match unsafe { postcard::to_slice(&bundles, &mut (*c_raw_data)[..]) } {
+                Ok(_) => ProcessManagerError::Success,
+                Err(_) => ProcessManagerError::DeserializeError,
             }
         }
+        Err(e) => e,
     }
 }
