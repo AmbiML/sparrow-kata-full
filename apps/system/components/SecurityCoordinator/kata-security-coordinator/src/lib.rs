@@ -6,7 +6,9 @@
 
 extern crate alloc;
 use alloc::boxed::Box;
-use kata_security_common::*;
+use kata_security_interface::SecurityCoordinatorInterface;
+use kata_security_interface::SecurityRequest;
+use kata_security_interface::SecurityRequestError;
 
 #[cfg(all(feature = "fake", feature = "sel4"))]
 compile_error!("features \"fake\" and \"sel4\" are mutually exclusive");

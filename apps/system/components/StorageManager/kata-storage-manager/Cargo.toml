@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2018"
 
 [dependencies]
-kata-security-common = { path = "../../SecurityCoordinator/kata-security-common" }
+kata-security-interface = { path = "../../SecurityCoordinator/kata-security-interface" }
 kata-storage-interface = { path = "../kata-storage-interface" }
 log = "0.4"
 postcard = "0.7"

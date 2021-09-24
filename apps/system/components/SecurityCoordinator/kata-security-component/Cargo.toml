@@ -7,7 +7,7 @@ edition = "2018"
 kata-allocator = { path = "../../DebugConsole/kata-allocator" }
 kata-logger = { path = "../../DebugConsole/kata-logger" }
 kata-panic = { path = "../../DebugConsole/kata-panic" }
-kata-security-common = { path = "../kata-security-common" }
+kata-security-interface = { path = "../kata-security-interface" }
 kata-security-coordinator = { path = "../kata-security-coordinator" }
 log = "0.4"
 

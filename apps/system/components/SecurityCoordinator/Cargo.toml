@@ -1,9 +1,9 @@
 [workspace]
 
 members = [
-    "kata-security-common",
     "kata-security-component",
     "kata-security-coordinator",
+    "kata-security-interface",
 ]
 
 [profile.dev]

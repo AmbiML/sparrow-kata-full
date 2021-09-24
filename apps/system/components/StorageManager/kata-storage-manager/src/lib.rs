@@ -4,16 +4,22 @@
 
 extern crate alloc;
 use alloc::string::String;
-use kata_security_common::*;
-use kata_storage_interface::{KeyValueData, KEY_VALUE_DATA_SIZE};
+use kata_security_interface::kata_security_request;
+use kata_security_interface::DeleteKeyRequest;
+use kata_security_interface::ReadKeyRequest;
+use kata_security_interface::SecurityRequest;
+use kata_security_interface::WriteKeyRequest;
+use kata_security_interface::SECURITY_REPLY_DATA_SIZE;
+use kata_security_interface::SECURITY_REQUEST_DATA_SIZE;
 use kata_storage_interface::StorageError;
 use kata_storage_interface::StorageManagerInterface;
+use kata_storage_interface::{KeyValueData, KEY_VALUE_DATA_SIZE};
 use log::trace;
 use postcard;
 
 // NB: KATA_STORAGE cannot be used before setup is completed with a call to init()
 #[cfg(not(test))]
-pub static mut KATA_STORAGE: KataStorageManager = KataStorageManager{};
+pub static mut KATA_STORAGE: KataStorageManager = KataStorageManager {};
 
 // KataStorageManager bundles an instance of the StorageManager that operates
 // on KataOS interfaces. There is a two-step dance to setup an instance because
@@ -23,11 +29,6 @@ impl StorageManagerInterface for KataStorageManager {
     fn read(&self, bundle_id: &str, key: &str) -> Result<KeyValueData, StorageError> {
         trace!("read bundle_id:{} key:{}", bundle_id, key);
 
-        fn serialize_failure(e: postcard::Error) -> StorageError {
-            trace!("read: serialize failure {:?}", e);
-            StorageError::SerializeFailed
-        }
-
         // Send request to Security Core via SecurityCoordinator
         let mut request = [0u8; SECURITY_REQUEST_DATA_SIZE];
         let _ = postcard::to_slice(
@@ -36,17 +37,13 @@ impl StorageManagerInterface for KataStorageManager {
                 key: String::from(key),
             },
             &mut request[..],
-        )
-        .map_err(serialize_failure)?;
+        )?;
         let result = &mut [0u8; SECURITY_REPLY_DATA_SIZE];
-        match kata_security_request(SecurityRequest::SrReadKey, &request, result) {
-            SecurityRequestError::SreSuccess => {
-                let mut keyval = [0u8; KEY_VALUE_DATA_SIZE];
-                keyval.copy_from_slice(&result[..KEY_VALUE_DATA_SIZE]);
-                Ok(keyval)
-            }
-            e => Err(map_security_request_error(e, StorageError::ReadFailed)),
-        }
+        let _ = kata_security_request(SecurityRequest::SrReadKey, &request, result)?;
+        // NB: must copy into KeyValueData for now
+        let mut keyval = [0u8; KEY_VALUE_DATA_SIZE];
+        keyval.copy_from_slice(&result[..KEY_VALUE_DATA_SIZE]);
+        Ok(keyval)
     }
     fn write(&self, bundle_id: &str, key: &str, value: &[u8]) -> Result<(), StorageError> {
         trace!(
@@ -55,11 +52,6 @@ impl StorageManagerInterface for KataStorageManager {
             key,
             value
         );
-
-        fn serialize_failure(e: postcard::Error) -> StorageError {
-            trace!("write: serialize failure {:?}", e);
-            StorageError::SerializeFailed
-        }
 
         // Send request to Security Core via SecurityCoordinator
         let mut request = [0u8; SECURITY_REQUEST_DATA_SIZE];
@@ -70,21 +62,13 @@ impl StorageManagerInterface for KataStorageManager {
                 value: value,
             },
             &mut request[..],
-        )
-        .map_err(serialize_failure)?;
+        )?;
         let result = &mut [0u8; SECURITY_REPLY_DATA_SIZE];
-        match kata_security_request(SecurityRequest::SrWriteKey, &request, result) {
-            SecurityRequestError::SreSuccess => Ok(()),
-            e => Err(map_security_request_error(e, StorageError::WriteFailed)),
-        }
+        kata_security_request(SecurityRequest::SrWriteKey, &request, result)?;
+        Ok(())
     }
     fn delete(&self, bundle_id: &str, key: &str) -> Result<(), StorageError> {
         trace!("delete bundle_id:{} key:{}", bundle_id, key);
-
-        fn serialize_failure(e: postcard::Error) -> StorageError {
-            trace!("delete: serialize failure {:?}", e);
-            StorageError::SerializeFailed
-        }
 
         // Send request to Security Core via SecurityCoordinator
         let mut request = [0u8; SECURITY_REQUEST_DATA_SIZE];
@@ -94,22 +78,9 @@ impl StorageManagerInterface for KataStorageManager {
                 key: String::from(key),
             },
             &mut request[..],
-        )
-        .map_err(serialize_failure)?;
+        )?;
         let result = &mut [0u8; SECURITY_REPLY_DATA_SIZE];
-        match kata_security_request(SecurityRequest::SrDeleteKey, &request, result) {
-            SecurityRequestError::SreSuccess => Ok(()),
-            e => Err(map_security_request_error(e, StorageError::DeleteFailed)),
-        }
-    }
-}
-
-// Maps a SecuritRequestError to a StorageError.
-fn map_security_request_error(sre: SecurityRequestError, def: StorageError) -> StorageError {
-    match sre {
-        SecurityRequestError::SreSuccess => StorageError::Success,
-        SecurityRequestError::SreBundleNotFound => StorageError::BundleNotFound,
-        SecurityRequestError::SreKeyNotFound => StorageError::KeyNotFound,
-        _ => def,
+        kata_security_request(SecurityRequest::SrDeleteKey, &request, result)?;
+        Ok(())
     }
 }

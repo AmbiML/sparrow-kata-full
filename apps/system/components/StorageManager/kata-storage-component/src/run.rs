@@ -11,8 +11,8 @@ use kata_allocator;
 use kata_logger::KataLogger;
 use kata_storage_interface::KeyValueData;
 use kata_storage_interface::StorageError;
-use kata_storage_interface::StorageManagerInterface;
 use kata_storage_interface::StorageManagerError;
+use kata_storage_interface::StorageManagerInterface;
 use kata_storage_manager::KATA_STORAGE;
 use log::trace;
 

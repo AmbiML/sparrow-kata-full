@@ -1,7 +1,16 @@
 //! Kata OS security coordinator seL4 support
 
-extern crate alloc;
-use kata_security_common::*;
+use kata_security_interface::DeleteKeyRequest;
+use kata_security_interface::GetManifestRequest;
+use kata_security_interface::LoadApplicationRequest;
+use kata_security_interface::LoadModelRequest;
+use kata_security_interface::ReadKeyRequest;
+use kata_security_interface::SecurityCoordinatorInterface;
+use kata_security_interface::SecurityRequest;
+use kata_security_interface::SecurityRequestError;
+use kata_security_interface::SizeBufferRequest;
+use kata_security_interface::UninstallRequest;
+use kata_security_interface::WriteKeyRequest;
 use log::trace;
 use postcard;
 
@@ -64,7 +73,7 @@ impl SecurityCoordinatorInterface for SeL4SecurityCoordinator {
                 Err(SreSizeBufferFailed)
             }
             SecurityRequest::SrGetManifest => {
-                let request = postcard::from_bytes::<SizeBufferRequest>(&request_buffer[..])
+                let request = postcard::from_bytes::<GetManifestRequest>(&request_buffer[..])
                     .map_err(deserialize_failure)?;
                 trace!("GET MANIFEST bundle_id {}", request.bundle_id);
                 // TODO(sleffler): fill-in

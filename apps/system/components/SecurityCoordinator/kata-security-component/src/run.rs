@@ -8,8 +8,11 @@ use kata_allocator;
 use kata_logger::KataLogger;
 #[cfg(not(test))]
 extern crate kata_panic;
-use kata_security_common::*;
 use kata_security_coordinator::KATA_SECURITY;
+use kata_security_interface::SecurityCoordinatorInterface;
+use kata_security_interface::SecurityReplyData;
+use kata_security_interface::SecurityRequest;
+use kata_security_interface::SecurityRequestError;
 use log::trace;
 
 #[no_mangle]

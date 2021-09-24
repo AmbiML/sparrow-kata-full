@@ -5,3 +5,5 @@ edition = "2018"
 
 [dependencies]
 cstr_core = "0.2"
+kata-security-interface = { path = "../../SecurityCoordinator/kata-security-interface" }
+postcard = "0.7"

@@ -7,7 +7,7 @@ edition = "2018"
 [dependencies]
 hashbrown = { version = "0.11", features = ["ahash-compile-time-rng"] }
 kata-proc-common = { path = "../kata-proc-common" }
-kata-security-common = { path = "../../SecurityCoordinator/kata-security-common" }
+kata-security-interface = { path = "../../SecurityCoordinator/kata-security-interface" }
 log = "0.4"
 postcard = "0.7"
 smallstr = "0.2"
