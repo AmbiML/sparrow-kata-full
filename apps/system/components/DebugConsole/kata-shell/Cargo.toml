@@ -12,4 +12,4 @@ kata-proc-common = { path = "../../ProcessManager/kata-proc-common" }
 kata-security-interface = { path = "../../SecurityCoordinator/kata-security-interface" }
 kata-storage-interface = { path = "../../StorageManager/kata-storage-interface" }
 log = "0.4"
-postcard = { version = "0.7", features = ["alloc"] }
+postcard = { version = "0.7", features = ["alloc"], default-features = false }

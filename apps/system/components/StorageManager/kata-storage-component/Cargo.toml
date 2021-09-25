@@ -11,7 +11,7 @@ kata-panic = { path = "../../DebugConsole/kata-panic" }
 kata-storage-interface = { path = "../kata-storage-interface" }
 kata-storage-manager = { path = "../kata-storage-manager" }
 log = "0.4"
-postcard = "0.7"
+postcard = { version = "0.7", features = ["alloc"], default-features = false }
 
 [lib]
 name = "kata_storage_manager"

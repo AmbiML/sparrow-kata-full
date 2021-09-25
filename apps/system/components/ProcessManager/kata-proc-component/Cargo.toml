@@ -11,7 +11,7 @@ kata-panic = { path = "../../DebugConsole/kata-panic" }
 kata-proc-common = { path = "../kata-proc-common" }
 kata-proc-manager = { path = "../kata-proc-manager" }
 log = "0.4"
-postcard = { version = "0.7", features = ["alloc"] }
+postcard = { version = "0.7", features = ["alloc"], default-features = false }
 
 [lib]
 name = "kata_process_manager"
