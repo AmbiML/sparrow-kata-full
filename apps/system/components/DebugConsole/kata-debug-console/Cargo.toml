@@ -8,6 +8,7 @@ description = "Kata OS DebugConsole"
 [dependencies]
 panic-halt = "0.2.0"
 kata-allocator = { path = "../kata-allocator" }
+kata-io = { path = "../kata-io" }
 kata-logger = { path = "../kata-logger" }
 kata-panic = { path = "../kata-panic" }
 kata-shell = { path = "../kata-shell" }

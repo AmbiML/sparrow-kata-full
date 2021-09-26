@@ -15,6 +15,7 @@
 extern crate kata_panic;
 
 use kata_allocator;
+use kata_io;
 use kata_logger::KataLogger;
 use kata_shell;
 use kata_uart_client;
@@ -45,6 +46,6 @@ pub extern "C" fn pre_init() {
 pub extern "C" fn run() -> ! {
     trace!("run");
     let mut tx = kata_uart_client::Tx::new();
-    let mut rx = kata_uart_client::Rx::new();
+    let mut rx = kata_io::BufReader::new(kata_uart_client::Rx::new());
     kata_shell::repl(&mut tx, &mut rx);
 }
