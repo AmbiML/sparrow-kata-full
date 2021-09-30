@@ -44,7 +44,7 @@ pub extern "C" fn pre_init() {
 #[no_mangle]
 pub extern "C" fn run() -> ! {
     trace!("run");
-    let mut tx = kata_uart_client::Tx {};
-    let mut rx = kata_uart_client::Rx {};
+    let mut tx = kata_uart_client::Tx::new();
+    let mut rx = kata_uart_client::Rx::new();
     kata_shell::repl(&mut tx, &mut rx);
 }
