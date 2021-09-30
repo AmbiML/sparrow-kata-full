@@ -15,6 +15,7 @@ use kata_proc_interface::kata_pkg_mgmt_uninstall;
 use kata_proc_interface::kata_proc_ctrl_get_running_bundles;
 use kata_proc_interface::kata_proc_ctrl_start;
 use kata_proc_interface::kata_proc_ctrl_stop;
+use kata_os_common::sel4_sys::seL4_DebugDumpScheduler;
 use kata_storage_interface::kata_storage_delete;
 use kata_storage_interface::kata_storage_read;
 use kata_storage_interface::kata_storage_write;
@@ -207,12 +208,7 @@ fn rz_command(
 
 /// Implements a "ps" command that dumps seL4 scheduler state to the console.
 fn ps_command() -> Result<(), CommandError> {
-    extern "C" {
-        fn sel4debug_dump_scheduler();
-    }
-    unsafe {
-        sel4debug_dump_scheduler();
-    }
+    unsafe { seL4_DebugDumpScheduler(); }
     Ok(())
 }
 
