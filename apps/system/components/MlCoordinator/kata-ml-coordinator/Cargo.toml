@@ -7,7 +7,9 @@ edition = "2018"
 [dependencies]
 kata-logger = { path = "../../DebugConsole/kata-logger" }
 kata-panic = { path = "../../DebugConsole/kata-panic" }
+kata-ml-interface = { path = "../kata-ml-interface" }
 log = "0.4"
+xmas-elf = "0.8.0"
 
 [lib]
 name = "kata_ml_coordinator"
