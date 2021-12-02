@@ -8,6 +8,7 @@ edition = "2018"
 kata-logger = { path = "../../DebugConsole/kata-logger" }
 kata-panic = { path = "../../DebugConsole/kata-panic" }
 kata-ml-interface = { path = "../kata-ml-interface" }
+kata-ml-core = { path = "../kata-ml-core" }
 log = "0.4"
 xmas-elf = "0.8.0"
 

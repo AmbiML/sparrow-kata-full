@@ -1,0 +1,11 @@
+[package]
+name = "kata-ml-core"
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+kata-logger = { path = "../../DebugConsole/kata-logger" }
+kata-ml-interface = { path = "../kata-ml-interface" }
+modular-bitfield = "0.11.2"
+log = "0.4"
+xmas-elf = "0.8.0"

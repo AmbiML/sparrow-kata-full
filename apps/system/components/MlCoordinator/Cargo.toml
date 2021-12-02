@@ -2,6 +2,8 @@
 
 members = [
     "kata-ml-coordinator",
+    "kata-ml-interface",
+    "kata-ml-core"
 ]
 
 [profile.dev]
