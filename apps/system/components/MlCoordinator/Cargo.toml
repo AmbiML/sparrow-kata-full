@@ -3,7 +3,7 @@
 members = [
     "kata-ml-coordinator",
     "kata-ml-interface",
-    "kata-ml-core"
+    "kata-vec-core"
 ]
 
 [profile.dev]

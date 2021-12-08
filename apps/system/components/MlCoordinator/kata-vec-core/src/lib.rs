@@ -1,6 +1,6 @@
 #![no_std]
 
-// kata-ml-core is the vector core driver. It is responsible for providing
+// kata-vec-core is the vector core driver. It is responsible for providing
 // convenient methods for interacting with the hardware.
 
 mod vc_top;

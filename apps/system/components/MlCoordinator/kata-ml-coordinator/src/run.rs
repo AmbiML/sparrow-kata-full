@@ -5,7 +5,7 @@ extern crate kata_panic;
 
 use core::slice;
 use kata_logger::KataLogger;
-use kata_ml_core::MlCore;
+use kata_vec_core::MlCore;
 use kata_ml_interface::MlCoordinatorInterface;
 use kata_ml_interface::MlCoreInterface;
 use log::{error, info, trace};
