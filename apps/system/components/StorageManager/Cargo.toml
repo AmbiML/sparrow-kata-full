@@ -5,6 +5,7 @@ members = [
     "kata-storage-interface",
     "kata-storage-manager",
 ]
+resolver = "2"
 
 [profile.dev]
 opt-level = 0

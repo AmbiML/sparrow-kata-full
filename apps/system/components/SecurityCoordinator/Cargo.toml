@@ -5,6 +5,7 @@ members = [
     "kata-security-coordinator",
     "kata-security-interface",
 ]
+resolver = "2"
 
 [profile.dev]
 opt-level = 0

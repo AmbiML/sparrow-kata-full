@@ -5,6 +5,8 @@ members = [
     "kata-proc-interface",
     "kata-proc-manager",
 ]
+resolver = "2"
+
 
 [profile.dev]
 opt-level = 0

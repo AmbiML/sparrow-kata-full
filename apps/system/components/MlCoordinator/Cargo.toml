@@ -5,6 +5,7 @@ members = [
     "kata-ml-interface",
     "kata-vec-core"
 ]
+resolver = "2"
 
 [profile.dev]
 opt-level = 0
