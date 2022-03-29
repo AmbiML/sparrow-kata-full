@@ -31,13 +31,13 @@ DeclareCAmkESComponent(DebugConsole
 )
 
 RustAddLibrary(
-  kata_process_manager
-  SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/components/ProcessManager
-  LIB_FILENAME libkata_process_manager.a
+  kata_memory_manager
+  SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/components/MemoryManager
+  LIB_FILENAME libkata_memory_manager.a
 )
 
-DeclareCAmkESComponent(ProcessManager
-  LIBS kata_process_manager
+DeclareCAmkESComponent(MemoryManager
+  LIBS kata_memory_manager
   INCLUDES interfaces
 )
 
@@ -49,6 +49,17 @@ RustAddLibrary(
 
 DeclareCAmkESComponent(MlCoordinator
   LIBS kata_ml_coordinator
+  INCLUDES interfaces
+)
+
+RustAddLibrary(
+  kata_process_manager
+  SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/components/ProcessManager
+  LIB_FILENAME libkata_process_manager.a
+)
+
+DeclareCAmkESComponent(ProcessManager
+  LIBS kata_process_manager
   INCLUDES interfaces
 )
 

@@ -1,0 +1,13 @@
+[package]
+name = "kata-memory-manager"
+version = "0.1.0"
+description = "Kata OS MemoryManager service"
+edition = "2018"
+
+[dependencies]
+kata-allocator = { path = "../../DebugConsole/kata-allocator" }
+kata-os-common = { path = "../../kata-os-common" }
+kata-memory-interface = { path = "../kata-memory-interface" }
+log = "0.4"
+smallvec = "1.2"
+spin = "0.9"

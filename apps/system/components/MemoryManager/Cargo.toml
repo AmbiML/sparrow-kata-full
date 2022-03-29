@@ -1,0 +1,24 @@
+[workspace]
+
+members = [
+    "kata-memory-component",
+    "kata-memory-interface",
+    "kata-memory-manager",
+]
+resolver = "2"
+
+[profile.dev]
+opt-level = 0
+debug = true
+lto = false
+codegen-units = 1
+
+[profile.release]
+opt-level = "z"
+lto = "fat"
+codegen-units = 1
+split-debuginfo = "unpacked"
+
+[profile.release.build-override]
+opt-level = "z"
+codegen-units = 1

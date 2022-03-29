@@ -1,0 +1,19 @@
+[package]
+name = "kata-memory-component"
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+kata-allocator = { path = "../../DebugConsole/kata-allocator" }
+kata-logger = { path = "../../DebugConsole/kata-logger" }
+kata-panic = { path = "../../DebugConsole/kata-panic" }
+kata-memory-interface = { path = "../kata-memory-interface" }
+kata-memory-manager = { path = "../kata-memory-manager" }
+kata-os-common = { path = "../../kata-os-common" }
+log = "0.4"
+postcard = { version = "0.7", features = ["alloc"], default-features = false }
+
+[lib]
+name = "kata_memory_manager"
+path = "src/run.rs"
+crate-type = ["staticlib"]
