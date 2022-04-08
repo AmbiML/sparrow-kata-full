@@ -9,4 +9,7 @@ component StorageManager {
 
   uses LoggerInterface logger;
   uses SecurityCoordinatorInterface security;
+
+  // Enable KataOS CAmkES support.
+  attribute int kataos = true;
 }
