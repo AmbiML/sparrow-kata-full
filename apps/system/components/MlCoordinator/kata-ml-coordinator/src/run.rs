@@ -1,10 +1,9 @@
 #![no_std]
 
 // ML Coordinator Design Doc: go/sparrow-ml-doc
-extern crate kata_panic;
 
 use core::slice;
-use kata_logger::KataLogger;
+use kata_os_common::logger::KataLogger;
 use kata_ml_interface::MlCoordinatorInterface;
 use kata_ml_interface::MlCoreInterface;
 use kata_vec_core::MlCore;

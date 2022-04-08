@@ -6,12 +6,9 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-kata-allocator = { path = "../../DebugConsole/kata-allocator" }
-kata-logger = { path = "../../DebugConsole/kata-logger" }
 kata-os-common = { path = "../../kata-os-common" }
 kata-timer-interface = { path = "../kata-timer-interface" }
 kata-timer-service = { path = "../kata-timer-service" }
-kata-panic = { path = "../../DebugConsole/kata-panic" }
 log = "0.4"
 
 [lib]

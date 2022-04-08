@@ -5,8 +5,7 @@ authors = ["Adam Jesionowski <jesionowski@google.com>"]
 edition = "2018"
 
 [dependencies]
-kata-logger = { path = "../../DebugConsole/kata-logger" }
-kata-panic = { path = "../../DebugConsole/kata-panic" }
+kata-os-common = { path = "../../kata-os-common" }
 kata-ml-interface = { path = "../kata-ml-interface" }
 kata-vec-core = { path = "../kata-vec-core" }
 log = "0.4"

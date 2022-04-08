@@ -3,7 +3,6 @@
 #![feature(const_btree_new)]
 
 extern crate alloc;
-extern crate kata_panic;
 
 use alloc::collections::BTreeMap;
 use core::time::Duration;

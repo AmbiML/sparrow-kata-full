@@ -5,9 +5,7 @@ edition = "2018"
 
 [dependencies]
 cstr_core = { version = "0.2.3", default-features = false }
-kata-allocator = { path = "../../DebugConsole/kata-allocator" }
-kata-logger = { path = "../../DebugConsole/kata-logger" }
-kata-panic = { path = "../../DebugConsole/kata-panic" }
+kata-os-common = { path = "../../kata-os-common" }
 kata-storage-interface = { path = "../kata-storage-interface" }
 kata-storage-manager = { path = "../kata-storage-manager" }
 log = "0.4"

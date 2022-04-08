@@ -11,12 +11,9 @@
 
 #![no_std]
 
-#[cfg(not(test))]
-extern crate kata_panic;
-
-use kata_allocator;
 use kata_io;
-use kata_logger::KataLogger;
+use kata_os_common::allocator;
+use kata_os_common::logger::KataLogger;
 use kata_shell;
 use kata_uart_client;
 use log::trace;
@@ -32,7 +29,7 @@ pub extern "C" fn pre_init() {
     const HEAP_SIZE: usize = 1 << 20;
     static mut HEAP_MEMORY: [u8; HEAP_SIZE] = [0; HEAP_SIZE];
     unsafe {
-        kata_allocator::ALLOCATOR.init(HEAP_MEMORY.as_mut_ptr() as usize, HEAP_MEMORY.len());
+        allocator::ALLOCATOR.init(HEAP_MEMORY.as_mut_ptr() as usize, HEAP_MEMORY.len());
         trace!(
             "setup heap: start_addr {:p} size {}",
             HEAP_MEMORY.as_ptr(),

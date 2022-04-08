@@ -4,7 +4,6 @@ members = [
     "kata-debug-console",
     "kata-io",
     "kata-line-reader",
-    "kata-logger",
     "kata-shell",
     "kata-uart-client",
     "zmodem",

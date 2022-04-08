@@ -14,7 +14,8 @@ use kata_security_interface::SecurityRequestError;
 use kata_security_interface::SizeBufferRequest;
 use kata_security_interface::UninstallRequest;
 use kata_security_interface::WriteKeyRequest;
-use kata_storage_interface::{KeyValueData, KEY_VALUE_DATA_SIZE};
+use kata_storage_interface::KeyValueData;
+use kata_storage_interface::KEY_VALUE_DATA_SIZE;
 use log::trace;
 use postcard;
 

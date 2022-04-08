@@ -4,9 +4,7 @@ version = "0.1.0"
 edition = "2018"
 
 [dependencies]
-kata-allocator = { path = "../../DebugConsole/kata-allocator" }
-kata-logger = { path = "../../DebugConsole/kata-logger" }
-kata-panic = { path = "../../DebugConsole/kata-panic" }
+kata-os-common = { path = "../../kata-os-common" }
 kata-security-interface = { path = "../kata-security-interface" }
 kata-security-coordinator = { path = "../kata-security-coordinator" }
 log = "0.4"
