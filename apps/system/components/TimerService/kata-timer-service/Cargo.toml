@@ -1,0 +1,14 @@
+[package]
+name = "kata-timer-service"
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+kata-allocator = { path = "../../DebugConsole/kata-allocator" }
+kata-logger = { path = "../../DebugConsole/kata-logger" }
+kata-os-common = { path = "../../kata-os-common" }
+kata-timer-interface = { path = "../kata-timer-interface" }
+kata-panic = { path = "../../DebugConsole/kata-panic" }
+log = "0.4"
+opentitan-timer = { path = "../opentitan-timer" }
+spin = "0.9"
