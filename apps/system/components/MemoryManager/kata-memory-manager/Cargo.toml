@@ -1,8 +1,10 @@
+cargo-features = ["edition2021"]
+
 [package]
 name = "kata-memory-manager"
 version = "0.1.0"
 description = "Kata OS MemoryManager service"
-edition = "2018"
+edition = "2021"
 
 [dependencies]
 kata-os-common = { path = "../../kata-os-common" }
