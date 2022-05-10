@@ -7,6 +7,10 @@ edition = "2021"
 
 [dependencies]
 cstr_core = "0.2.3"
+kata-memory-interface = { path = "../../MemoryManager/kata-memory-interface" }
+kata-io = { path = "../../DebugConsole/kata-io" }
+kata-os-common = { path = "../../kata-os-common" }
 kata-security-interface = { path = "../../SecurityCoordinator/kata-security-interface" }
+log = "0.4"
 postcard = { version = "0.7", features = ["alloc"], default-features = false }
 serde = { version = "1.0", default-features = false, features = ["alloc", "derive"] }
