@@ -6,6 +6,10 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+kata-memory-interface = { path = "../../MemoryManager/kata-memory-interface" }
+kata-os-common = { path = "../../kata-os-common" }
+kata-storage-interface = { path = "../../StorageManager/kata-storage-interface" }
+log = "0.4"
 postcard = { version = "0.7", features = ["alloc"], default-features = false }
 serde = { version = "1.0", default-features = false, features = ["alloc", "derive"] }
 serde-big-array = "0.3"
