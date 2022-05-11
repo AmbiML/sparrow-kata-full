@@ -6,9 +6,11 @@
 
 extern crate alloc;
 use alloc::boxed::Box;
+use alloc::string::String;
+use kata_memory_interface::ObjDescBundle;
 use kata_security_interface::SecurityCoordinatorInterface;
-use kata_security_interface::SecurityRequest;
 use kata_security_interface::SecurityRequestError;
+use kata_storage_interface::KeyValueData;
 
 #[cfg(all(feature = "fake", feature = "sel4"))]
 compile_error!("features \"fake\" and \"sel4\" are mutually exclusive");
@@ -23,7 +25,7 @@ pub static mut KATA_SECURITY: KataSecurityCoordinator = KataSecurityCoordinator:
 
 // KataSecurityCoordinator bundles an instance of the SecurityCoordinator that operates
 // on KataOS interfaces. There is a two-step dance to setup an instance because we want
-// KATA_STORAGE static.
+// KATA_SECURITY static.
 // NB: no locking is done; we assume the caller/user is single-threaded
 pub struct KataSecurityCoordinator {
     manager: Option<Box<dyn SecurityCoordinatorInterface + Sync>>,
@@ -40,15 +42,31 @@ impl KataSecurityCoordinator {
     }
 }
 impl SecurityCoordinatorInterface for KataSecurityCoordinator {
-    fn request(
-        &mut self,
-        request_id: SecurityRequest,
-        request_buffer: &[u8],
-        reply_buffer: &mut [u8],
-    ) -> Result<(), SecurityRequestError> {
-        self.manager
-            .as_mut()
-            .unwrap()
-            .request(request_id, request_buffer, reply_buffer)
+    fn install(&mut self, pkg_contents: &ObjDescBundle) -> Result<String, SecurityRequestError> {
+        self.manager.as_mut().unwrap().install(pkg_contents)
+    }
+    fn uninstall(&mut self, bundle_id: &str) -> Result<(), SecurityRequestError> {
+        self.manager.as_mut().unwrap().uninstall(bundle_id)
+    }
+    fn size_buffer(&self, bundle_id: &str) -> Result<usize, SecurityRequestError> {
+        self.manager.as_ref().unwrap().size_buffer(bundle_id)
+    }
+    fn get_manifest(&self, bundle_id: &str) -> Result<String, SecurityRequestError> {
+        self.manager.as_ref().unwrap().get_manifest(bundle_id)
+    }
+    fn load_application(&self, bundle_id: &str) -> Result<ObjDescBundle, SecurityRequestError> {
+        self.manager.as_ref().unwrap().load_application(bundle_id)
+    }
+    fn load_model(&self, bundle_id: &str, model_id: &str) -> Result<ObjDescBundle, SecurityRequestError> {
+        self.manager.as_ref().unwrap().load_model(bundle_id, model_id)
+    }
+    fn read_key(&self, bundle_id: &str, key: &str) -> Result<&KeyValueData, SecurityRequestError> {
+        self.manager.as_ref().unwrap().read_key(bundle_id, key)
+    }
+    fn write_key(&mut self, bundle_id: &str, key: &str, value: &KeyValueData) -> Result<(), SecurityRequestError> {
+        self.manager.as_mut().unwrap().write_key(bundle_id, key, value)
+    }
+    fn delete_key(&mut self, bundle_id: &str, key: &str) -> Result<(), SecurityRequestError> {
+        self.manager.as_mut().unwrap().delete_key(bundle_id, key)
     }
 }

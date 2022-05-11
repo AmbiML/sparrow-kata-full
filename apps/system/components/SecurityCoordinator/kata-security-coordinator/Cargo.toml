@@ -12,6 +12,8 @@ sel4 = []
 
 [dependencies]
 hashbrown = { version = "0.11", features = ["ahash-compile-time-rng"] }
+kata-memory-interface = { path = "../../MemoryManager/kata-memory-interface" }
+kata-os-common = { path = "../../kata-os-common" }
 kata-security-interface = { path = "../kata-security-interface" }
 kata-storage-interface = { path = "../../StorageManager/kata-storage-interface" }
 log = "0.4"

@@ -9,7 +9,9 @@ edition = "2021"
 kata-os-common = { path = "../../kata-os-common" }
 kata-security-interface = { path = "../kata-security-interface" }
 kata-security-coordinator = { path = "../kata-security-coordinator" }
+kata-storage-interface = { path = "../../StorageManager/kata-storage-interface" }
 log = "0.4"
+postcard = { version = "0.7", features = ["alloc"], default-features = false }
 
 [lib]
 name = "kata_security_coordinator"
