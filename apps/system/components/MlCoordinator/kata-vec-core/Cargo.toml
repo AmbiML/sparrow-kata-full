@@ -6,7 +6,10 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+kata-io = { path = "../../DebugConsole/kata-io" }
+kata-memory-interface = { path = "../../MemoryManager/kata-memory-interface" }
 kata-ml-interface = { path = "../kata-ml-interface" }
+kata-proc-interface = { path = "../../ProcessManager/kata-proc-interface" }
+kata-os-common = { path = "../../kata-os-common" }
 modular-bitfield = "0.11.2"
 log = "0.4"
-xmas-elf = { git = "https://github.com/nrc/xmas-elf" }

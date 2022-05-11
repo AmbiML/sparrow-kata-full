@@ -7,11 +7,13 @@ authors = ["Adam Jesionowski <jesionowski@google.com>"]
 edition = "2021"
 
 [dependencies]
+cstr_core = { version = "0.2.3", default-features = false }
 kata-os-common = { path = "../../kata-os-common" }
+kata-memory-interface = { path = "../../MemoryManager/kata-memory-interface" }
 kata-ml-interface = { path = "../kata-ml-interface" }
+kata-security-interface = { path = "../../SecurityCoordinator/kata-security-interface" }
 kata-vec-core = { path = "../kata-vec-core" }
 log = "0.4"
-xmas-elf = "0.8.0"
 
 [lib]
 name = "kata_ml_coordinator"
