@@ -11,6 +11,7 @@
 
 #![no_std]
 
+use core::slice;
 use kata_io;
 use kata_os_common::allocator;
 use kata_os_common::logger::KataLogger;
@@ -27,6 +28,8 @@ use slot_allocator::KATA_CSPACE_SLOTS;
 extern "C" {
     static SELF_CNODE_FIRST_SLOT: seL4_CPtr;
     static SELF_CNODE_LAST_SLOT: seL4_CPtr;
+
+    static cpio_archive: *const u8; // CPIO archive of built-in files
 }
 
 #[no_mangle]
@@ -62,8 +65,11 @@ pub extern "C" fn pre_init() {
 /// Entry point for DebugConsole. Runs the shell with UART IO.
 #[no_mangle]
 pub extern "C" fn run() -> ! {
-    trace!("run");
     let mut tx = kata_uart_client::Tx::new();
     let mut rx = kata_io::BufReader::new(kata_uart_client::Rx::new());
-    kata_shell::repl(&mut tx, &mut rx);
+    let cpio_archive_ref = unsafe {
+        // XXX want begin-end or begin+size instead of a fixed-size block
+        slice::from_raw_parts(cpio_archive, 16777216)
+    };
+    kata_shell::repl(&mut tx, &mut rx, cpio_archive_ref);
 }
