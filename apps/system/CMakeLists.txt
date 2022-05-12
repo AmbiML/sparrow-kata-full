@@ -44,7 +44,7 @@ DeclareCAmkESComponent(MemoryManager
 RustAddLibrary(
   kata_ml_coordinator
   SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/components/MlCoordinator
-  LIB_FILENAME libkata_ml_coordinator.a
+  LIB_FILENAME libkata_ml_component.a
 )
 
 DeclareCAmkESComponent(MlCoordinator

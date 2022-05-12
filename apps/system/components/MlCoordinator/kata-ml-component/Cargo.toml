@@ -1,7 +1,7 @@
 cargo-features = ["edition2021"]
 
 [package]
-name = "kata-ml-coordinator"
+name = "kata-ml-component"
 version = "0.1.0"
 authors = ["Adam Jesionowski <jesionowski@google.com>"]
 edition = "2021"
@@ -10,9 +10,13 @@ edition = "2021"
 cstr_core = { version = "0.2.3", default-features = false }
 kata-os-common = { path = "../../kata-os-common" }
 kata-memory-interface = { path = "../../MemoryManager/kata-memory-interface" }
+kata-ml-coordinator = { path = "../kata-ml-coordinator" }
 kata-ml-interface = { path = "../kata-ml-interface" }
-kata-security-interface = { path = "../../SecurityCoordinator/kata-security-interface" }
 kata-timer-interface = { path = "../../TimerService/kata-timer-interface" }
-kata-vec-core = { path = "../kata-vec-core" }
 log = "0.4"
 spin = "0.9"
+
+[lib]
+name = "kata_ml_component"
+path = "src/run.rs"
+crate-type = ["staticlib"]
