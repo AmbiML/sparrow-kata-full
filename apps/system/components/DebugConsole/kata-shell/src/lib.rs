@@ -19,6 +19,7 @@ use kata_proc_interface::kata_pkg_mgmt_uninstall;
 use kata_proc_interface::kata_proc_ctrl_get_running_bundles;
 use kata_proc_interface::kata_proc_ctrl_start;
 use kata_proc_interface::kata_proc_ctrl_stop;
+use kata_security_interface::kata_security_echo;
 use kata_storage_interface::kata_storage_delete;
 use kata_storage_interface::kata_storage_read;
 use kata_storage_interface::kata_storage_write;
@@ -179,30 +180,10 @@ fn echo_command(cmdline: &str, output: &mut dyn io::Write) -> Result<(), Command
 
 /// Implements an "scecho" command that sends arguments to the Security Core's echo service.
 fn scecho_command(cmdline: &str, output: &mut dyn io::Write) -> Result<(), CommandError> {
-    use kata_security_interface::kata_security_request;
-    use kata_security_interface::EchoRequest;
-    use kata_security_interface::SecurityRequest;
-    use kata_security_interface::SECURITY_REPLY_DATA_SIZE;
-
     let (_, request) = cmdline.split_at(7); // 'scecho'
-    let reply = &mut [0u8; SECURITY_REPLY_DATA_SIZE];
-    match kata_security_request(
-        SecurityRequest::SrEcho,
-        &EchoRequest {
-            value: request.as_bytes(),
-        },
-        reply,
-    ) {
-        Ok(_) => {
-            writeln!(
-                output,
-                "{}",
-                String::from_utf8_lossy(&reply[..request.len()])
-            )?;
-        }
-        Err(status) => {
-            writeln!(output, "ECHO replied {:?}", status)?;
-        }
+    match kata_security_echo(request) {
+        Ok(result) => writeln!(output, "{}", result)?,
+        Err(status) => writeln!(output, "ECHO replied {:?}", status)?,
     }
     Ok(())
 }
