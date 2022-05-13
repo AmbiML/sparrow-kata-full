@@ -21,6 +21,7 @@ hex = { version = "0.4.3", default-features = false, features = ["alloc"] }
 kata-io = { path = "../kata-io" }
 kata-line-reader = { path = "../kata-line-reader" }
 kata-memory-interface = { path = "../../MemoryManager/kata-memory-interface" }
+kata-ml-interface = { path = "../../MlCoordinator/kata-ml-interface" }
 kata-proc-interface = { path = "../../ProcessManager/kata-proc-interface" }
 kata-os-common = { path = "../../kata-os-common" }
 kata-security-interface = { path = "../../SecurityCoordinator/kata-security-interface" }

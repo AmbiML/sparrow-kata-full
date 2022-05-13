@@ -12,6 +12,7 @@ use log;
 use kata_io as io;
 use kata_line_reader::LineReader;
 use kata_memory_interface::*;
+use kata_ml_interface::kata_mlcoord_execute;
 use kata_os_common::sel4_sys;
 use kata_os_common::slot_allocator;
 use kata_proc_interface::kata_pkg_mgmt_install;
@@ -144,7 +145,7 @@ fn dispatch_command(cmdline: &str, input: &mut dyn io::BufRead, output: &mut dyn
                 "test_alloc" => test_alloc_command(output),
                 "test_alloc_error" => test_alloc_error_command(output),
                 "test_bootinfo" => test_bootinfo_command(output),
-                "test_mlexecute" => test_mlexecute_command(),
+                "test_mlexecute" => test_mlexecute_command(&mut args, output),
                 "test_mlcontinuous" => test_mlcontinuous_command(&mut args),
                 "test_obj_alloc" => test_obj_alloc_command(output),
                 "test_panic" => test_panic_command(),
@@ -577,14 +578,14 @@ fn test_panic_command() -> Result<(), CommandError> {
 }
 
 /// Implements a command that runs an ML execution.
-fn test_mlexecute_command() -> Result<(), CommandError> {
-    extern "C" {
-        fn mlcoord_execute();
-    }
-    unsafe {
-        mlcoord_execute();
-    }
-    Ok(())
+fn test_mlexecute_command(
+    args: &mut dyn Iterator<Item = &str>,
+    _output: &mut dyn io::Write,
+) -> Result<(), CommandError> {
+    let bundle_id = args.next().ok_or(CommandError::BadArgs)?;
+    let model_id = args.next().ok_or(CommandError::BadArgs)?;
+    kata_mlcoord_execute(bundle_id, model_id)
+        .map_err(|_| CommandError::IO)
 }
 
 /// Implements a command that sets whether the ml execution is continuous.
