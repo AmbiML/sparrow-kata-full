@@ -12,13 +12,10 @@
 #![no_std]
 
 use core::slice;
-use kata_io;
 use kata_os_common::allocator;
 use kata_os_common::logger::KataLogger;
 use kata_os_common::sel4_sys;
 use kata_os_common::slot_allocator;
-use kata_shell;
-use kata_uart_client;
 use log::trace;
 
 use sel4_sys::seL4_CPtr;
