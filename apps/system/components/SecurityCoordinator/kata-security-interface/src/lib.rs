@@ -6,8 +6,8 @@ extern crate alloc;
 use alloc::string::String;
 use core::str;
 use kata_memory_interface::ObjDescBundle;
+use kata_os_common::cspace_slot::CSpaceSlot;
 use kata_os_common::sel4_sys;
-use kata_os_common::slot_allocator;
 use kata_storage_interface::KeyValueData;
 use kata_storage_interface::StorageError;
 use log::trace;
@@ -16,8 +16,6 @@ use serde::{Deserialize, Serialize};
 
 use sel4_sys::seL4_CPtr;
 use sel4_sys::seL4_SetCap;
-
-use slot_allocator::CSpaceSlot;
 
 // NB: serde helper for arrays w/ >32 elements
 //   c.f. https://github.com/serde-rs/serde/pull/1860

@@ -16,7 +16,7 @@ use kata_memory_interface::kata_object_free;
 use kata_memory_interface::kata_object_free_in_cnode;
 use kata_memory_interface::ObjDesc;
 use kata_memory_interface::ObjDescBundle;
-use kata_os_common::slot_allocator;
+use kata_os_common::cspace_slot::CSpaceSlot;
 use kata_proc_interface::Bundle;
 use kata_proc_interface::BundleImage;
 use kata_proc_interface::BundleImplInterface;
@@ -43,8 +43,6 @@ use sel4_sys::seL4_TCB_WriteRegisters;
 use sel4_sys::seL4_UserContext;
 use sel4_sys::seL4_Word;
 use sel4_sys::seL4_WordBits;
-
-use slot_allocator::CSpaceSlot;
 
 use static_assertions::const_assert;
 

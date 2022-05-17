@@ -5,8 +5,8 @@ use core::mem::size_of;
 use core::ops::Range;
 use core::ptr;
 use kata_memory_interface::ObjDescBundle;
+use kata_os_common::cspace_slot::CSpaceSlot;
 use kata_os_common::sel4_sys;
-use kata_os_common::slot_allocator;
 use log::{error, trace};
 
 use sel4_sys::seL4_CapRights;
@@ -18,8 +18,6 @@ use sel4_sys::seL4_PageBits;
 use sel4_sys::seL4_RISCV_Page_Map as seL4_Page_Map;
 use sel4_sys::seL4_RISCV_Page_Unmap as seL4_Page_Unmap;
 use sel4_sys::seL4_RISCV_VMAttributes::Default_VMAttributes as seL4_Default_VMAttributes;
-
-use slot_allocator::CSpaceSlot;
 
 use kata_io as io;
 use io::Read;

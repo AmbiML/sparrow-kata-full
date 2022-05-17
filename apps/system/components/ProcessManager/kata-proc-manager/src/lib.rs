@@ -6,7 +6,7 @@ extern crate alloc;
 use alloc::string::String;
 use alloc::boxed::Box;
 use kata_memory_interface::ObjDescBundle;
-use kata_os_common::slot_allocator;
+use kata_os_common::cspace_slot::CSpaceSlot;
 use kata_proc_interface::Bundle;
 use kata_proc_interface::BundleImplInterface;
 use kata_proc_interface::BundleIdArray;
@@ -19,8 +19,6 @@ use kata_security_interface::kata_security_load_application;
 use kata_security_interface::kata_security_uninstall;
 use log::trace;
 use spin::Mutex;
-
-use slot_allocator::CSpaceSlot;
 
 mod sel4bundle;
 use sel4bundle::seL4BundleImpl;

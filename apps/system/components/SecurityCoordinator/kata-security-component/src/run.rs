@@ -5,9 +5,10 @@
 
 use core::slice;
 use kata_os_common::allocator;
+use kata_os_common::cspace_slot::CSpaceSlot;
 use kata_os_common::logger::KataLogger;
 use kata_os_common::sel4_sys;
-use kata_os_common::slot_allocator;
+use kata_os_common::slot_allocator::KATA_CSPACE_SLOTS;
 use kata_security_coordinator::KATA_SECURITY;
 use kata_security_interface::*;
 use kata_storage_interface::KEY_VALUE_DATA_SIZE;
@@ -23,9 +24,6 @@ use sel4_sys::seL4_SetCap;
 use sel4_sys::seL4_SetCapReceivePath;
 use sel4_sys::seL4_Word;
 use sel4_sys::seL4_WordBits;
-
-use slot_allocator::CSpaceSlot;
-use slot_allocator::KATA_CSPACE_SLOTS;
 
 extern "C" {
     // Each CAmkES-generated CNode has a writable self-reference to itself in
