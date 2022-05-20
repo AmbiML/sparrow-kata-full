@@ -7,29 +7,18 @@
 extern crate alloc;
 use core::slice;
 use cstr_core::CStr;
-use kata_os_common::allocator;
-use kata_os_common::logger::KataLogger;
+use kata_os_common::camkes::Camkes;
 use kata_storage_interface::KeyValueData;
 use kata_storage_interface::StorageManagerError;
 use kata_storage_interface::StorageManagerInterface;
 use kata_storage_manager::KATA_STORAGE;
-use log::trace;
+
+static mut CAMKES: Camkes = Camkes::new("StorageManager");
 
 #[no_mangle]
 pub unsafe extern "C" fn pre_init() {
-    static KATA_LOGGER: KataLogger = KataLogger;
-    log::set_logger(&KATA_LOGGER).unwrap();
-    // NB: set to max; the LoggerInterface will filter
-    log::set_max_level(log::LevelFilter::Trace);
-
-    // TODO(sleffler): temp until we integrate with seL4
     static mut HEAP_MEMORY: [u8; 8 * 1024] = [0; 8 * 1024];
-    allocator::ALLOCATOR.init(HEAP_MEMORY.as_mut_ptr() as usize, HEAP_MEMORY.len());
-    trace!(
-        "setup heap: start_addr {:p} size {}",
-        HEAP_MEMORY.as_ptr(),
-        HEAP_MEMORY.len()
-    );
+    CAMKES.pre_init(log::LevelFilter::Trace, &mut HEAP_MEMORY);
 }
 
 // StorageInterface glue stubs.

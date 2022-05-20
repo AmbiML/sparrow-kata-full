@@ -12,51 +12,23 @@
 #![no_std]
 
 use core::slice;
-use kata_os_common::allocator;
-use kata_os_common::logger::KataLogger;
-use kata_os_common::sel4_sys;
-use kata_os_common::slot_allocator;
-use log::trace;
-
-use sel4_sys::seL4_CPtr;
-
-use slot_allocator::KATA_CSPACE_SLOTS;
+use kata_os_common::camkes::Camkes;
 
 extern "C" {
-    static SELF_CNODE_FIRST_SLOT: seL4_CPtr;
-    static SELF_CNODE_LAST_SLOT: seL4_CPtr;
-
     static cpio_archive: *const u8; // CPIO archive of built-in files
 }
 
-#[no_mangle]
-pub extern "C" fn pre_init() {
-    static KATA_LOGGER: KataLogger = KataLogger;
-    log::set_logger(&KATA_LOGGER).unwrap();
-    // NB: set to Trace for early-boot msgs
-    log::set_max_level(log::LevelFilter::Debug);
+static mut CAMKES: Camkes = Camkes::new("DebugConsole");
 
+#[no_mangle]
+pub unsafe extern "C" fn pre_init() {
     // TODO(b/200946906): Review per-component heap allocations, including this one.
     const HEAP_SIZE: usize = 1 << 20;
     static mut HEAP_MEMORY: [u8; HEAP_SIZE] = [0; HEAP_SIZE];
-    unsafe {
-        allocator::ALLOCATOR.init(HEAP_MEMORY.as_mut_ptr() as usize, HEAP_MEMORY.len());
-        trace!(
-            "setup heap: start_addr {:p} size {}",
-            HEAP_MEMORY.as_ptr(),
-            HEAP_MEMORY.len()
-        );
-    }
-
-    unsafe {
-        KATA_CSPACE_SLOTS.init(
-            /*first_slot=*/ SELF_CNODE_FIRST_SLOT,
-            /*size=*/ SELF_CNODE_LAST_SLOT - SELF_CNODE_FIRST_SLOT
-        );
-        trace!("setup cspace slots: first slot {} free {}",
-               KATA_CSPACE_SLOTS.base_slot(),
-               KATA_CSPACE_SLOTS.free_slots());
-    }
+    CAMKES.pre_init(
+        log::LevelFilter::Debug,
+        &mut HEAP_MEMORY,
+    );
 }
 
 /// Entry point for DebugConsole. Runs the shell with UART IO.

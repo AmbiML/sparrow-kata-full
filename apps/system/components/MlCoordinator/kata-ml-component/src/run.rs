@@ -8,46 +8,18 @@ use cstr_core::CStr;
 use kata_ml_coordinator::MLCoordinator;
 use kata_ml_coordinator::ModelIdx;
 use kata_ml_interface::MlCoordError;
-use kata_os_common::allocator;
-use kata_os_common::logger::KataLogger;
-use kata_os_common::sel4_sys;
-use kata_os_common::slot_allocator::KATA_CSPACE_SLOTS;
+use kata_os_common::camkes::Camkes;
 use kata_timer_interface::*;
-use log::{error, trace};
-use sel4_sys::seL4_CPtr;
+use log::error;
 use spin::Mutex;
 
+static mut CAMKES: Camkes = Camkes::new("MlCoordinator");
 static mut ML_COORD: Mutex<MLCoordinator> = Mutex::new(MLCoordinator::new());
-
-extern "C" {
-    static SELF_CNODE_FIRST_SLOT: seL4_CPtr;
-    static SELF_CNODE_LAST_SLOT: seL4_CPtr;
-}
 
 #[no_mangle]
 pub unsafe extern "C" fn pre_init() {
-    static KATA_LOGGER: KataLogger = KataLogger;
-    log::set_logger(&KATA_LOGGER).unwrap();
-    log::set_max_level(log::LevelFilter::Trace);
-
-    // TODO(sleffler): temp until we integrate with seL4
     static mut HEAP_MEMORY: [u8; 4 * 1024] = [0; 4 * 1024];
-    allocator::ALLOCATOR.init(HEAP_MEMORY.as_mut_ptr() as usize, HEAP_MEMORY.len());
-    trace!(
-        "setup heap: start_addr {:p} size {}",
-        HEAP_MEMORY.as_ptr(),
-        HEAP_MEMORY.len()
-    );
-
-    KATA_CSPACE_SLOTS.init(
-        /*first_slot=*/ SELF_CNODE_FIRST_SLOT,
-        /*size=*/ SELF_CNODE_LAST_SLOT - SELF_CNODE_FIRST_SLOT,
-    );
-    trace!(
-        "setup cspace slots: first slot {} free {}",
-        KATA_CSPACE_SLOTS.base_slot(),
-        KATA_CSPACE_SLOTS.free_slots()
-    );
+    CAMKES.pre_init(log::LevelFilter::Trace, &mut HEAP_MEMORY);
 }
 
 #[no_mangle]
@@ -56,7 +28,7 @@ pub unsafe extern "C" fn mlcoord__init() {
 }
 
 #[no_mangle]
-pub extern "C" fn run() {
+pub unsafe extern "C" fn run() {
     loop {
         timer_service_wait();
         let completed = timer_service_completed_timers();
@@ -64,10 +36,8 @@ pub extern "C" fn run() {
         for i in 0..31 {
             let idx: u32 = 1 << i;
             if completed & idx != 0 {
-                unsafe {
-                    if let Err(e) = ML_COORD.lock().timer_completed(i as ModelIdx) {
-                        error!("Error when trying to run periodic model: {:?}", e);
-                    }
+                if let Err(e) = ML_COORD.lock().timer_completed(i as ModelIdx) {
+                    error!("Error when trying to run periodic model: {:?}", e);
                 }
             }
         }
