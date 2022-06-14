@@ -3,6 +3,7 @@ cargo-features = ["edition2021"]
 [workspace]
 
 members = [
+    "fake-vec-core",
     "kata-ml-component",
     "kata-ml-coordinator",
     "kata-ml-interface",

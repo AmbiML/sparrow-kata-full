@@ -7,4 +7,3 @@ edition = "2021"
 
 [dependencies]
 cstr_core = { version = "0.2.3", default-features = false }
-kata-memory-interface = { path = "../../MemoryManager/kata-memory-interface" }

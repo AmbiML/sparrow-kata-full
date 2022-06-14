@@ -1,0 +1,11 @@
+cargo-features = ["edition2021"]
+
+[package]
+name = "fake-vec-core"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+kata-memory-interface = { path = "../../MemoryManager/kata-memory-interface" }
+kata-ml-interface = { path = "../kata-ml-interface" }
+
