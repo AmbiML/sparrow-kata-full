@@ -5,6 +5,8 @@ members = [
     "kata-ml-component",
     "kata-ml-coordinator",
     "kata-ml-interface",
+    "kata-ml-shared",
+    "kata-ml-support",
     "kata-vec-core"
 ]
 resolver = "2"

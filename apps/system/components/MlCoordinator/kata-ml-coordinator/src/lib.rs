@@ -8,15 +8,12 @@ use alloc::string::String;
 use alloc::vec::Vec;
 use kata_memory_interface::kata_object_free_in_cnode;
 use kata_ml_interface::MlCoordError;
+use kata_ml_shared::MAX_MODELS;
 use kata_os_common::cspace_slot::CSpaceSlot;
 use kata_security_interface::*;
 use kata_timer_interface::*;
 use kata_vec_core as MlCore;
 use log::{error, info, trace, warn};
-
-/// The maximum number of models that the MLCoordinator can handle, bounded by
-/// timer slots. It's unlikely we'll be anywhere near this.
-const MAX_MODELS: usize = 32;
 
 /// Represents a single loadable model.
 #[derive(Debug)]

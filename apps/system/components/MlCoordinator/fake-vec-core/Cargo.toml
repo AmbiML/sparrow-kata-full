@@ -4,6 +4,4 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-kata-memory-interface = { path = "../../MemoryManager/kata-memory-interface" }
-kata-ml-interface = { path = "../kata-ml-interface" }
-
+kata-ml-shared = { path = "../kata-ml-shared" }

@@ -1,0 +1,14 @@
+[package]
+name = "kata-ml-support"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+log = "0.4"
+kata-ml-shared = { path = "../kata-ml-shared" }
+# XXX: Re-integrate when it does not depend on kata-os-common.
+# kata-vec-core = { path = "../kata-vec-core" }
+fake-vec-core = { path = "../fake-vec-core" }
+
+[dev-dependencies]
+assert_hex = "0.2.2"
