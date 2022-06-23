@@ -8,6 +8,7 @@ use crate::CommandError;
 use crate::HashMap;
 
 use kata_io as io;
+use kata_memory_interface::kata_object_free_in_cnode;
 use kata_os_common::cspace_slot::CSpaceSlot;
 use kata_security_interface::*;
 use kata_storage_interface::KEY_VALUE_DATA_SIZE;
@@ -76,9 +77,13 @@ fn load_application_command(
     _builtin_cpio: &[u8],
 ) -> Result<(), CommandError> {
     let bundle_id = args.next().ok_or(CommandError::BadArgs)?;
-    let container_slot = CSpaceSlot::new();
+    let mut container_slot = CSpaceSlot::new();
     match kata_security_load_application(bundle_id, &container_slot) {
-        Ok(frames) => writeln!(output, "{:?}", &frames)?,
+        Ok(frames) => {
+            container_slot.release(); // NB: take ownership
+            writeln!(output, "{:?}", &frames)?;
+            let _ = kata_object_free_in_cnode(&frames);
+        },
         Err(status) => writeln!(output, "LoadApplication failed: {:?}", status)?,
     }
     Ok(())
@@ -92,9 +97,13 @@ fn load_model_command(
 ) -> Result<(), CommandError> {
     let bundle_id = args.next().ok_or(CommandError::BadArgs)?;
     let model_id = args.next().ok_or(CommandError::BadArgs)?;
-    let container_slot = CSpaceSlot::new();
+    let mut container_slot = CSpaceSlot::new();
     match kata_security_load_model(bundle_id, model_id, &container_slot) {
-        Ok(frames) => writeln!(output, "{:?}", &frames)?,
+        Ok(frames) => {
+            container_slot.release(); // NB: take ownership
+            writeln!(output, "{:?}", &frames)?;
+            let _ = kata_object_free_in_cnode(&frames);
+        }
         Err(status) => writeln!(output, "LoadApplication failed: {:?}", status)?,
     }
     Ok(())

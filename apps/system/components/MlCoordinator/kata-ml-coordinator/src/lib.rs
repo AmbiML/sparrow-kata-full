@@ -6,6 +6,7 @@ extern crate alloc;
 
 use alloc::string::String;
 use alloc::vec::Vec;
+use kata_memory_interface::kata_object_free_in_cnode;
 use kata_ml_interface::MlCoordError;
 use kata_os_common::cspace_slot::CSpaceSlot;
 use kata_security_interface::*;
@@ -89,10 +90,11 @@ impl MLCoordinator {
         // To load the model into the vector core the pages must be
         // mapped into the MlCoordinator's VSpace before being copied
         // to their destination.
-        let container_slot = CSpaceSlot::new();
+        let mut container_slot = CSpaceSlot::new();
         match kata_security_load_model(&model.bundle_id, &model.model_id, &container_slot) {
             Ok(model_frames) => {
-                match MlCore::load_image(&model_frames) {
+                container_slot.release();  // NB: take ownership
+                let ret_status = match MlCore::load_image(&model_frames) {
                     Err(e) => {
                         error!(
                             "Load of {}:{} failed: {:?}",
@@ -109,7 +111,9 @@ impl MLCoordinator {
                         self.loaded_model = Some(model_idx);
                         Ok(())
                     }
-                }
+                };
+                let _ = kata_object_free_in_cnode(&model_frames);
+                ret_status
             }
             Err(e) => {
                 error!(
