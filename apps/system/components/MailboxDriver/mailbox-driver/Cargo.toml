@@ -10,7 +10,6 @@ default = []
 kata-os-common = { path = "../../kata-os-common" }
 log = "0.4"
 cty = "0.2.1"
-kata-memory-interface = { path = "../../MemoryManager/kata-memory-interface" }
 
 [lib]
 name = "mailbox_driver"
