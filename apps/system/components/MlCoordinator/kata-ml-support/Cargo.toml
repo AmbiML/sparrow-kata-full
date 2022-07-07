@@ -5,6 +5,7 @@ edition = "2021"
 
 [dependencies]
 log = "0.4"
+kata-io = { path = "../../DebugConsole/kata-io" }
 kata-ml-shared = { path = "../kata-ml-shared" }
 # XXX: Re-integrate when it does not depend on kata-os-common.
 # kata-vec-core = { path = "../kata-vec-core" }
