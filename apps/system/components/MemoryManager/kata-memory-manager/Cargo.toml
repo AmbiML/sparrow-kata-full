@@ -4,6 +4,11 @@ version = "0.1.0"
 description = "Kata OS MemoryManager service"
 edition = "2021"
 
+[features]
+default = []
+# Log UntypedMemory slabs at startup.
+CONFIG_NOISY_UNTYPEDS = []
+
 [dependencies]
 kata-os-common = { path = "../../kata-os-common" }
 kata-memory-interface = { path = "../kata-memory-interface" }
