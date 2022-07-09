@@ -139,3 +139,13 @@ pub fn kata_storage_write(key: &str, value: &[u8]) -> Result<(), StorageManagerE
     let cstr = CString::new(key)?;
     unsafe { storage_write(cstr.as_ptr(), value.len(), value.as_ptr()) }.into()
 }
+
+#[inline]
+#[allow(dead_code)]
+pub fn kata_storage_capscan() -> Result<(), StorageManagerError> {
+    extern "C" {
+        fn storage_capscan();
+    }
+    unsafe { storage_capscan() }
+    Ok(())
+}

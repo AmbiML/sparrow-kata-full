@@ -84,6 +84,9 @@ impl ProcessControlInterface for KataProcManager {
     fn get_running_bundles(&self) -> Result<BundleIdArray, ProcessManagerError> {
         self.manager.lock().as_ref().unwrap().get_running_bundles()
     }
+    fn capscan(&self, bundle_id: &str) -> Result<(), ProcessManagerError> {
+        self.manager.lock().as_ref().unwrap().capscan(bundle_id)
+    }
 }
 
 struct KataManagerInterface;
@@ -160,5 +163,10 @@ impl ProcessManagerInterface for KataManagerInterface {
         // 4. Reclaim seL4 resources: TCB, VSpace, memory, capabilities, etc.
         // TODO(sleffler): fill-in 1+2
         bundle_impl.stop()
+    }
+    fn capscan(&self, bundle_impl: &dyn BundleImplInterface) -> Result<(), ProcessManagerError> {
+        trace!("ProcessManagerInterface::capscan");
+
+        bundle_impl.capscan()
     }
 }
