@@ -8,8 +8,8 @@ use core::slice;
 use cstr_core::CStr;
 use kata_memory_interface::ObjDescBundle;
 use kata_os_common::camkes::Camkes;
-use kata_os_common::slot_allocator;
 use kata_os_common::sel4_sys;
+use kata_os_common::slot_allocator;
 use kata_proc_interface::*;
 use kata_proc_manager::KATA_PROC;
 use log::trace;
@@ -30,7 +30,10 @@ pub unsafe extern "C" fn pre_init() {
 
     // Complete KATA_PROC setup now that Global allocator is setup.
     KATA_PROC.init();
-    trace!("ProcessManager has capacity for {} bundles", KATA_PROC.capacity());
+    trace!(
+        "ProcessManager has capacity for {} bundles",
+        KATA_PROC.capacity()
+    );
 
     PKG_MGMT_RECV_SLOT = KATA_CSPACE_SLOTS.alloc(1).unwrap();
 }
@@ -78,7 +81,7 @@ pub unsafe extern "C" fn pkg_mgmt_install(
 
 #[no_mangle]
 pub unsafe extern "C" fn pkg_mgmt_uninstall(
-    c_bundle_id: *const cstr_core::c_char
+    c_bundle_id: *const cstr_core::c_char,
 ) -> ProcessManagerError {
     let recv_path = CAMKES.get_current_recv_path();
     CAMKES.assert_recv_path();
@@ -97,7 +100,7 @@ pub unsafe extern "C" fn pkg_mgmt_uninstall(
 // ProcessControlInterface glue stubs.
 #[no_mangle]
 pub unsafe extern "C" fn proc_ctrl_start(
-    c_bundle_id: *const cstr_core::c_char
+    c_bundle_id: *const cstr_core::c_char,
 ) -> ProcessManagerError {
     match CStr::from_ptr(c_bundle_id).to_str() {
         Ok(bundle_id) => match KATA_PROC.start(bundle_id) {
@@ -110,7 +113,7 @@ pub unsafe extern "C" fn proc_ctrl_start(
 
 #[no_mangle]
 pub unsafe extern "C" fn proc_ctrl_stop(
-    c_bundle_id: *const cstr_core::c_char
+    c_bundle_id: *const cstr_core::c_char,
 ) -> ProcessManagerError {
     match CStr::from_ptr(c_bundle_id).to_str() {
         Ok(str) => match KATA_PROC.stop(str) {
@@ -146,7 +149,7 @@ pub unsafe extern "C" fn proc_ctrl_capscan() {
 
 #[no_mangle]
 pub unsafe extern "C" fn proc_ctrl_capscan_bundle(
-    c_bundle_id: *const cstr_core::c_char
+    c_bundle_id: *const cstr_core::c_char,
 ) -> ProcessManagerError {
     match CStr::from_ptr(c_bundle_id).to_str() {
         Ok(str) => match KATA_PROC.capscan(str) {
