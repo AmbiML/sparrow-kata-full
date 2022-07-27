@@ -10,6 +10,7 @@ kata-os-common = { path = "../../kata-os-common" }
 kata-memory-interface = { path = "../../MemoryManager/kata-memory-interface" }
 kata-ml-coordinator = { path = "../kata-ml-coordinator" }
 kata-ml-interface = { path = "../kata-ml-interface" }
+kata-ml-shared = { path = "../kata-ml-shared" }
 kata-timer-interface = { path = "../../TimerService/kata-timer-interface" }
 log = "0.4"
 spin = "0.9"
