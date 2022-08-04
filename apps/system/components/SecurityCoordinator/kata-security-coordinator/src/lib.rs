@@ -33,9 +33,7 @@ pub struct KataSecurityCoordinator {
 impl KataSecurityCoordinator {
     // Constructs a partially-initialized instance; to complete call init().
     // This is needed because we need a const fn for static setup.
-    const fn empty() -> KataSecurityCoordinator {
-        KataSecurityCoordinator { manager: None }
-    }
+    const fn empty() -> KataSecurityCoordinator { KataSecurityCoordinator { manager: None } }
 
     pub fn init(&mut self) {
         self.manager = Some(Box::new(KataSecurityCoordinatorInterface::new()));

@@ -14,9 +14,7 @@ use std::time::*;
 
 extern crate kata_io;
 
-fn forget_err(_e: std::io::Error) -> kata_io::Error {
-    kata_io::Error {}
-}
+fn forget_err(_e: std::io::Error) -> kata_io::Error { kata_io::Error {} }
 
 struct ReadWrapper<R: std::io::Read> {
     r: R,
@@ -37,9 +35,7 @@ impl<W: std::io::Write> kata_io::Write for WriteWrapper<W> {
         self.w.write(buf).map_err(forget_err)
     }
 
-    fn flush(&mut self) -> kata_io::Result<()> {
-        self.w.flush().map_err(forget_err)
-    }
+    fn flush(&mut self) -> kata_io::Result<()> { self.w.flush().map_err(forget_err) }
 }
 
 struct SendInput<T: std::io::Read + std::io::Seek> {

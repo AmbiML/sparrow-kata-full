@@ -44,9 +44,7 @@ pub static mut TIMER_SRV: Mutex<KataTimerService> = Mutex::new(KataTimerService 
 });
 
 impl KataTimerService {
-    pub fn init(&mut self) {
-        self.timer.setup();
-    }
+    pub fn init(&mut self) { self.timer.setup(); }
 
     pub fn completed_timers(&mut self, client_id: seL4_Word) -> u32 {
         assert!(0 < client_id && client_id <= NUM_CLIENTS);

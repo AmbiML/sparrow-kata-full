@@ -63,7 +63,11 @@ impl<'a> KataOsModel<'a> {
                     // XXX no break?
                 }
             }
-            assert!(found, "Failed to find bootinfo to match untyped {:?}", ut.paddr().unwrap());
+            assert!(
+                found,
+                "Failed to find bootinfo to match untyped {:?}",
+                ut.paddr().unwrap()
+            );
         }
         Ok(())
     }

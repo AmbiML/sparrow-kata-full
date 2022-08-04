@@ -49,14 +49,10 @@ impl KataProcManager {
     }
 
     // Finishes the setup started by empty():
-    pub fn init(&self) {
-        *self.manager.lock() = Some(ProcessManager::new(KataManagerInterface));
-    }
+    pub fn init(&self) { *self.manager.lock() = Some(ProcessManager::new(KataManagerInterface)); }
 
     // Returns the bundle capacity.
-    pub fn capacity(&self) -> usize {
-        self.manager.lock().as_ref().unwrap().capacity()
-    }
+    pub fn capacity(&self) -> usize { self.manager.lock().as_ref().unwrap().capacity() }
 }
 // These just lock accesses and handle the necessary indirection.
 impl PackageManagementInterface for KataProcManager {
@@ -85,10 +81,7 @@ impl ProcessControlInterface for KataProcManager {
 struct KataManagerInterface;
 impl ProcessManagerInterface for KataManagerInterface {
     fn install(&mut self, pkg_contents: &ObjDescBundle) -> Result<String, ProcessManagerError> {
-        trace!(
-            "ProcessManagerInterface::install pkg_contents {}",
-            pkg_contents
-        );
+        trace!("ProcessManagerInterface::install pkg_contents {}", pkg_contents);
 
         // Package contains: application manifest, application binary, and
         // (optional) ML workload binary to run on vector core.
