@@ -19,6 +19,10 @@ CAmkESAddImportPath(interfaces)
 includeGlobalComponents()
 include(${CMAKE_CURRENT_LIST_DIR}/rust.cmake)
 
+# Note: the includes generated for each CAmkES component listed here are
+# generated separately from the CMake build scripts. See also build/kata.mk for
+# details, specifically the kata-component-headers target.
+
 RustAddLibrary(
   kata_debug_console
   SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/components/DebugConsole
@@ -28,6 +32,7 @@ RustAddLibrary(
 DeclareCAmkESComponent(DebugConsole
   LIBS kata_debug_console
   INCLUDES interfaces
+  $ENV{OUT}/kata/components
 )
 
 RustAddLibrary(
@@ -39,6 +44,7 @@ RustAddLibrary(
 DeclareCAmkESComponent(MemoryManager
   LIBS kata_memory_manager
   INCLUDES interfaces
+  $ENV{OUT}/kata/components
 )
 
 RustAddLibrary(
@@ -50,6 +56,7 @@ RustAddLibrary(
 DeclareCAmkESComponent(MlCoordinator
   LIBS kata_ml_coordinator
   INCLUDES interfaces
+  $ENV{OUT}/kata/components
 )
 
 RustAddLibrary(
@@ -61,6 +68,7 @@ RustAddLibrary(
 DeclareCAmkESComponent(ProcessManager
   LIBS kata_process_manager
   INCLUDES interfaces
+  $ENV{OUT}/kata/components
 )
 
 RustAddLibrary(
@@ -72,6 +80,7 @@ RustAddLibrary(
 DeclareCAmkESComponent(SecurityCoordinator
   LIBS kata_security_coordinator
   INCLUDES interfaces
+  $ENV{OUT}/kata/components
 )
 
 RustAddLibrary(
@@ -83,6 +92,7 @@ RustAddLibrary(
 DeclareCAmkESComponent(StorageManager
   LIBS kata_storage_manager
   INCLUDES interfaces
+  $ENV{OUT}/kata/components
 )
 
 RustAddLibrary(
@@ -94,6 +104,7 @@ RustAddLibrary(
 DeclareCAmkESComponent(TimerService
   LIBS kata_timer_service
   INCLUDES interfaces
+  $ENV{OUT}/kata/components
 )
 
 RustAddLibrary(
@@ -105,6 +116,7 @@ RustAddLibrary(
 DeclareCAmkESComponent(MailboxDriver
   LIBS mailbox_driver
   INCLUDES interfaces
+  $ENV{OUT}/kata/components
 )
 
 DeclareCAmkESComponent(LogFibonacci
@@ -119,6 +131,7 @@ DeclareCAmkESComponent(OpenTitanUARTDriver
   INCLUDES
   opentitan-gen/include
   components/OpenTitanUARTDriver/include
+  $ENV{OUT}/kata/components
 )
 
 DeclareCAmkESComponent(VectorCoreDriver
@@ -126,6 +139,7 @@ DeclareCAmkESComponent(VectorCoreDriver
   components/VectorCoreDriver/src/driver.c
   INCLUDES
   vc_top-gen/include
+  $ENV{OUT}/kata/components
 )
 
 DeclareCAmkESRootserver(system.camkes)

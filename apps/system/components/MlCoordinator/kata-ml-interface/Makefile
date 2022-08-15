@@ -1,4 +1,4 @@
-INTERFACES=../../../interfaces
+INTERFACES=${OUT}/kata/components
 
 ${INTERFACES}/MlCoordBindings.h: src/lib.rs cbindgen.toml
 	cbindgen -c cbindgen.toml src/lib.rs -o $@
