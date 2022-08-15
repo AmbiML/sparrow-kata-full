@@ -45,7 +45,7 @@ To use crates from Sparrow you can reference them from a local repository or
 directly from GitHub using git; e.g. in a Config.toml:
 ```
 kata-os-common = { path = "../system/components/kata-os-common" }
-kata-os-common = { git = "https://github.com/google/AmbiML/sparrow/kata" }
+kata-os-common = { git = "https://github.com/AmbiML/sparrow/kata" }
 ```
 NB: the git usage depends on cargo's support for searching for a crate
 named "kata-os-common" in the kata repo.
