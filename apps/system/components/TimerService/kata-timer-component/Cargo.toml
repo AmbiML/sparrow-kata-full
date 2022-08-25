@@ -23,7 +23,7 @@ edition = "2021"
 kata-os-common = { path = "../../kata-os-common" }
 kata-timer-interface = { path = "../kata-timer-interface" }
 kata-timer-service = { path = "../kata-timer-service" }
-log = "0.4"
+log = { version = "0.4", features = ["release_max_level_info"] }
 
 [lib]
 name = "kata_timer_component"

@@ -20,6 +20,6 @@ edition = "2021"
 [dependencies]
 kata-os-common = { path = "../../kata-os-common" }
 kata-timer-interface = { path = "../kata-timer-interface" }
-log = "0.4"
+log = { version = "0.4", features = ["release_max_level_info"] }
 opentitan-timer = { path = "../opentitan-timer" }
 spin = "0.9"

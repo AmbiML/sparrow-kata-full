@@ -22,7 +22,7 @@ cstr_core = { version = "0.2.3", default-features = false }
 kata-os-common = { path = "../../kata-os-common" }
 kata-storage-interface = { path = "../kata-storage-interface" }
 kata-storage-manager = { path = "../kata-storage-manager" }
-log = "0.4"
+log = { version = "0.4", features = ["release_max_level_info"] }
 postcard = { version = "0.7", features = ["alloc"], default-features = false }
 
 [lib]

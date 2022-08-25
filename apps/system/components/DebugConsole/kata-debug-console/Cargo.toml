@@ -31,7 +31,7 @@ kata-io = { path = "../kata-io" }
 kata-os-common = { path = "../../kata-os-common" }
 kata-shell = { path = "../kata-shell" }
 kata-uart-client = { path = "../kata-uart-client" }
-log = "0.4"
+log = { version = "0.4", features = ["release_max_level_info"] }
 
 [lib]
 name = "kata_debug_console"

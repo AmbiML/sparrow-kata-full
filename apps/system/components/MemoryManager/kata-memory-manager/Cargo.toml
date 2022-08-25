@@ -12,6 +12,6 @@ CONFIG_NOISY_UNTYPEDS = []
 [dependencies]
 kata-os-common = { path = "../../kata-os-common" }
 kata-memory-interface = { path = "../kata-memory-interface" }
-log = "0.4"
+log = { version = "0.4", features = ["release_max_level_info"] }
 smallvec = "1.2"
 spin = "0.9"

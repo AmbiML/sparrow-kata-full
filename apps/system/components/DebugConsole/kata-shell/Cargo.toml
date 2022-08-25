@@ -64,5 +64,5 @@ kata-security-interface = { path = "../../SecurityCoordinator/kata-security-inte
 kata-storage-interface = { path = "../../StorageManager/kata-storage-interface" }
 kata-timer-interface = { path = "../../TimerService/kata-timer-interface" }
 kata-sdk-interface = { path = "../../SDKRuntime/kata-sdk-interface" }
-log = "0.4"
+log = { version = "0.4", features = ["release_max_level_info"] }
 zmodem = { path = "../zmodem" }

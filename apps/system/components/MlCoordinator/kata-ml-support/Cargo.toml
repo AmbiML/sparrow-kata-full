@@ -18,7 +18,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-log = "0.4"
+log = { version = "0.4", features = ["release_max_level_info"] }
 kata-io = { path = "../../DebugConsole/kata-io" }
 kata-ml-shared = { path = "../kata-ml-shared" }
 kata-vec-core = { path = "../kata-vec-core" }
