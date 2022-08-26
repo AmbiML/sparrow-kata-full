@@ -29,7 +29,6 @@ use kata_os_common::copyregion::CopyRegion;
 use kata_os_common::cspace_slot::CSpaceSlot;
 use kata_os_common::sel4_sys;
 use kata_security_interface::*;
-use kata_storage_interface::KeyValueData;
 use log::trace;
 
 use sel4_sys::seL4_Error;

@@ -21,7 +21,6 @@ edition = "2021"
 kata-os-common = { path = "../../kata-os-common" }
 kata-security-interface = { path = "../kata-security-interface" }
 kata-security-coordinator = { path = "../kata-security-coordinator" }
-kata-storage-interface = { path = "../../StorageManager/kata-storage-interface" }
 log = { version = "0.4", features = ["release_max_level_info"] }
 postcard = { version = "0.7", features = ["alloc"], default-features = false }
 

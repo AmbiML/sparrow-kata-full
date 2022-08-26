@@ -98,18 +98,6 @@ DeclareCAmkESComponent(SecurityCoordinator
 )
 
 RustAddLibrary(
-  kata_storage_manager
-  SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/components/StorageManager
-  LIB_FILENAME libkata_storage_manager.a
-)
-
-DeclareCAmkESComponent(StorageManager
-  LIBS kata_storage_manager
-  INCLUDES interfaces
-  $ENV{OUT}/kata/components
-)
-
-RustAddLibrary(
   kata_timer_service
   SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/components/TimerService
   LIB_FILENAME libkata_timer_component.a

@@ -32,9 +32,9 @@ use kata_proc_interface::kata_pkg_mgmt_uninstall;
 use kata_proc_interface::kata_proc_ctrl_get_running_bundles;
 use kata_proc_interface::kata_proc_ctrl_start;
 use kata_proc_interface::kata_proc_ctrl_stop;
-use kata_storage_interface::kata_storage_delete;
-use kata_storage_interface::kata_storage_read;
-use kata_storage_interface::kata_storage_write;
+use kata_security_interface::kata_security_delete_key;
+use kata_security_interface::kata_security_read_key;
+use kata_security_interface::kata_security_write_key;
 
 use sel4_sys::seL4_CNode_Delete;
 use sel4_sys::seL4_CPtr;
@@ -295,9 +295,6 @@ fn capscan_command(
         Some("security") => {
             let _ = kata_security_interface::kata_security_capscan();
         }
-        Some("storage") => {
-            let _ = kata_storage_interface::kata_storage_capscan();
-        }
         Some("timer") => {
             let _ = kata_timer_interface::timer_service_capscan();
         }
@@ -486,8 +483,9 @@ fn kvdelete_command(
     output: &mut dyn io::Write,
     _builtin_cpio: &[u8],
 ) -> Result<(), CommandError> {
+    let bundle_id = args.next().ok_or(CommandError::BadArgs)?;
     let key = args.next().ok_or(CommandError::BadArgs)?;
-    match kata_storage_delete(key) {
+    match kata_security_delete_key(bundle_id, key) {
         Ok(_) => {
             writeln!(output, "Delete key \"{}\".", key)?;
         }
@@ -504,10 +502,12 @@ fn kvread_command(
     output: &mut dyn io::Write,
     _builtin_cpio: &[u8],
 ) -> Result<(), CommandError> {
+    let bundle_id = args.next().ok_or(CommandError::BadArgs)?;
     let key = args.next().ok_or(CommandError::BadArgs)?;
-    match kata_storage_read(key) {
-        Ok(value) => {
-            writeln!(output, "Read key \"{}\" = {:?}.", key, value)?;
+    let mut keyval = [0u8; kata_security_interface::KEY_VALUE_DATA_SIZE];
+    match kata_security_read_key(bundle_id, key, &mut keyval) {
+        Ok(_) => {
+            writeln!(output, "Read key \"{}\" = {:?}.", key, keyval)?;
         }
         Err(status) => {
             writeln!(output, "Read key \"{}\" failed: {:?}", key, status)?;
@@ -522,9 +522,10 @@ fn kvwrite_command(
     output: &mut dyn io::Write,
     _builtin_cpio: &[u8],
 ) -> Result<(), CommandError> {
+    let bundle_id = args.next().ok_or(CommandError::BadArgs)?;
     let key = args.next().ok_or(CommandError::BadArgs)?;
     let value = args.collect::<Vec<&str>>().join(" ");
-    match kata_storage_write(key, value.as_bytes()) {
+    match kata_security_write_key(bundle_id, key, value.as_bytes()) {
         Ok(_) => {
             writeln!(output, "Write key \"{}\" = {:?}.", key, value)?;
         }
