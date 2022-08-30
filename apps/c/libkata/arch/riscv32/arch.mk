@@ -12,8 +12,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-APPNAME := fibonacci
-SOURCES := fibonacci.c
-
-LIBKATA ?= ../libkata
-include $(LIBKATA)/make/app.mk
+SRC_FILES += arch/riscv32/crt0.S
