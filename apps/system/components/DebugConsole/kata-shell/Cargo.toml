@@ -29,7 +29,6 @@ default = [
     "TEST_MEMORY_MANAGER",
     "TEST_ML_COORDINATOR",
     "TEST_PANIC",
-    "TEST_SDK_RUNTIME",
     "TEST_SECURITY_COORDINATOR",
     "TEST_TIMER_SERVICE",
 ]
@@ -62,6 +61,6 @@ kata-proc-interface = { path = "../../ProcessManager/kata-proc-interface" }
 kata-os-common = { path = "../../kata-os-common" }
 kata-security-interface = { path = "../../SecurityCoordinator/kata-security-interface" }
 kata-timer-interface = { path = "../../TimerService/kata-timer-interface" }
-kata-sdk-interface = { path = "../../SDKRuntime/kata-sdk-interface" }
+kata-sdk-manager = { path = "../../SDKRuntime/kata-sdk-manager" }
 log = { version = "0.4", features = ["release_max_level_info"] }
 zmodem = { path = "../zmodem" }

@@ -25,7 +25,7 @@ use kata_os_common::camkes::Camkes;
 use kata_os_common::sel4_sys;
 use kata_os_common::slot_allocator;
 use kata_proc_interface::*;
-use kata_proc_manager::KATA_PROC;
+use kata_proc_manager::KataProcManager;
 use log::trace;
 
 use sel4_sys::seL4_CPtr;
@@ -33,6 +33,8 @@ use sel4_sys::seL4_CPtr;
 use slot_allocator::KATA_CSPACE_SLOTS;
 
 static mut CAMKES: Camkes = Camkes::new("ProcessManager");
+// NB: KATA_PROC cannot be used before setup is completed with a call to init()
+static mut KATA_PROC: KataProcManager = KataProcManager::empty();
 
 // TODO(sleffler): 0 is valid
 static mut PKG_MGMT_RECV_SLOT: seL4_CPtr = 0;

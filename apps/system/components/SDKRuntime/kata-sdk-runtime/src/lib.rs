@@ -13,23 +13,60 @@
 // limitations under the License.
 
 #![cfg_attr(not(test), no_std)]
+#![feature(build_hasher_simple_hash_one)]
 
+use kata_os_common::camkes::seL4_CPath;
+use kata_os_common::sel4_sys;
 use kata_sdk_interface::error::SDKError;
+use kata_sdk_interface::SDKAppId;
 use kata_sdk_interface::SDKRuntimeInterface;
-use log::trace;
+use kata_sdk_manager::SDKManagerError;
+use kata_sdk_manager::SDKManagerInterface;
+use spin::Mutex;
 
-#[cfg(not(test))]
-pub static mut KATA_SDK: KataSDKRuntime = KataSDKRuntime {};
+use sel4_sys::seL4_CPtr;
 
-/// Kata OS SDK support for third-party applications, Rust core.
-///
-/// This is the actual Rust implementation of the SDK runtime component. Here's
-/// where we can encapsulate all of our Rust fanciness, away from the C
-/// bindings. This is the server-side implementation.
-pub struct KataSDKRuntime;
+mod runtime;
+use runtime::SDKRuntime;
+
+/// Wrapper around SDKRuntime implementation. Because we have two CAmkES
+/// interfaces there may be concurrent calls so we lock at this level.
+pub struct KataSDKRuntime {
+    runtime: Mutex<Option<SDKRuntime>>,
+}
+impl KataSDKRuntime {
+    // Constructs a partially-initialized instance; to complete call init().
+    // This is needed because we need a const fn for static setup.
+    pub const fn empty() -> KataSDKRuntime {
+        KataSDKRuntime {
+            runtime: Mutex::new(None),
+        }
+    }
+    // Finishes the setup started by empty():
+    pub fn init(&self, endpoint: &seL4_CPath) {
+        *self.runtime.lock() = Some(SDKRuntime::new(endpoint));
+    }
+    // Returns the bundle capacity.
+    pub fn capacity(&self) -> usize { self.runtime.lock().as_ref().unwrap().capacity() }
+}
+// These just lock accesses and handle the necessary indirection.
+impl SDKManagerInterface for KataSDKRuntime {
+    fn get_endpoint(&mut self, app_id: &str) -> Result<seL4_CPtr, SDKManagerError> {
+        self.runtime.lock().as_mut().unwrap().get_endpoint(app_id)
+    }
+    fn release_endpoint(&mut self, app_id: &str) -> Result<(), SDKManagerError> {
+        self.runtime
+            .lock()
+            .as_mut()
+            .unwrap()
+            .release_endpoint(app_id)
+    }
+}
 impl SDKRuntimeInterface for KataSDKRuntime {
-    fn ping(&self) -> Result<(), SDKError> {
-        trace!("ping!");
-        Ok(())
+    fn ping(&self, app_id: SDKAppId) -> Result<(), SDKError> {
+        self.runtime.lock().as_ref().unwrap().ping(app_id)
+    }
+    fn log(&self, app_id: SDKAppId, msg: &str) -> Result<(), SDKError> {
+        self.runtime.lock().as_ref().unwrap().log(app_id, msg)
     }
 }

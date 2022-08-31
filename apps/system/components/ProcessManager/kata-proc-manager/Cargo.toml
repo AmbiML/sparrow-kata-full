@@ -38,6 +38,7 @@ kata-io = { path = "../../DebugConsole/kata-io" }
 kata-proc-interface = { path = "../kata-proc-interface" }
 kata-memory-interface = { path = "../../MemoryManager/kata-memory-interface" }
 kata-os-common = { path = "../../kata-os-common" }
+kata-sdk-manager = { path = "../../SDKRuntime/kata-sdk-manager" }
 kata-security-interface = { path = "../../SecurityCoordinator/kata-security-interface" }
 log = { version = "0.4", features = ["release_max_level_info"] }
 smallstr = "0.2"

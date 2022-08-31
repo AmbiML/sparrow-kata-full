@@ -18,5 +18,6 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-cstr_core = "0.2.3"
 postcard = { version = "0.7", features = ["alloc"], default-features = false }
+sel4-sys = { path = "../../kata-os-common/src/sel4-sys", default-features = false }
+serde = { version = "1.0", default-features = false, features = ["alloc", "derive"] }

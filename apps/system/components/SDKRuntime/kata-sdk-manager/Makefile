@@ -12,16 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-[package]
-name = "kata-sdk-runtime"
-version = "0.1.0"
-edition = "2021"
+INTERFACES=${OUT}/kata/components
 
-[dependencies]
-hashbrown = { version = "0.11", features = ["ahash-compile-time-rng"] }
-kata-os-common = { path = "../../kata-os-common" }
-kata-sdk-interface = { path = "../kata-sdk-interface" }
-kata-sdk-manager = { path = "../kata-sdk-manager" }
-log = { version = "0.4", features = ["release_max_level_info"] }
-smallstr = "0.2"
-spin = "0.9"
+${INTERFACES}/SDKManagerInterfaceBindings.h: src/lib.rs cbindgen.toml
+	cbindgen -c cbindgen.toml src/lib.rs -o $@
