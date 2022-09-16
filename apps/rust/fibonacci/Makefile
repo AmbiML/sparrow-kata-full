@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-APPNAME := hello
+APPNAME := fibonacci
 
 LIBKATA ?= ../libkata
 include ${LIBKATA}/make/app.mk
