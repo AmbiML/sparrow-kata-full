@@ -35,6 +35,6 @@ crate-type = ["staticlib"]
 [dependencies]
 cstr_core = { version = "0.2.3", default-features = false }
 kata-os-common = { path = "../../system/components/kata-os-common", default-features = false }
-kata-sdk-interface = { path = "../../system/components/SDKRuntime/kata-sdk-interface" }
 libkata = { path = "../libkata" }
 log = "0.4"
+sdk-interface = { path = "../../system/components/SDKRuntime/sdk-interface" }

@@ -16,9 +16,10 @@
 
 members = [
     "kata-sdk-component",
-    "kata-sdk-interface",
     "kata-sdk-manager",
     "kata-sdk-runtime",
+
+    "sdk-interface",
 ]
 resolver = "2"
 

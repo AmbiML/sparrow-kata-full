@@ -17,12 +17,12 @@
 
 use kata_os_common::camkes::seL4_CPath;
 use kata_os_common::sel4_sys;
-use kata_sdk_interface::error::SDKError;
-use kata_sdk_interface::KeyValueData;
-use kata_sdk_interface::SDKAppId;
-use kata_sdk_interface::SDKRuntimeInterface;
 use kata_sdk_manager::SDKManagerError;
 use kata_sdk_manager::SDKManagerInterface;
+use sdk_interface::error::SDKError;
+use sdk_interface::KeyValueData;
+use sdk_interface::SDKAppId;
+use sdk_interface::SDKRuntimeInterface;
 use spin::Mutex;
 
 use sel4_sys::seL4_CPtr;
