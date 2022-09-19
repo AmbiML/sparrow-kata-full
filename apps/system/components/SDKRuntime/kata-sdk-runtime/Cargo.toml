@@ -20,6 +20,7 @@ edition = "2021"
 [dependencies]
 hashbrown = { version = "0.11", features = ["ahash-compile-time-rng"] }
 kata-os-common = { path = "../../kata-os-common" }
+kata-security-interface = { path = "../../SecurityCoordinator/kata-security-interface" }
 kata-sdk-interface = { path = "../kata-sdk-interface" }
 kata-sdk-manager = { path = "../kata-sdk-manager" }
 log = { version = "0.4", features = ["release_max_level_info"] }
