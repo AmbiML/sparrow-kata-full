@@ -24,6 +24,7 @@ sel4-config = { path = "../../kata-os-common/src/sel4-config" }
 
 [features]
 default = [
+    "ml_support",
     "TEST_GLOBAL_ALLOCATOR",
     "TEST_MAILBOX",
     "TEST_MEMORY_MANAGER",
@@ -32,6 +33,7 @@ default = [
     "TEST_SECURITY_COORDINATOR",
     "TEST_TIMER_SERVICE",
 ]
+ml_support = ["kata-ml-interface"]
 CONFIG_DEBUG_BUILD = []
 CONFIG_PRINTING = []
 CONFIG_KERNEL_MCS = []
@@ -56,7 +58,7 @@ hex = { version = "0.4.3", default-features = false, features = ["alloc"] }
 kata-io = { path = "../kata-io" }
 kata-line-reader = { path = "../kata-line-reader" }
 kata-memory-interface = { path = "../../MemoryManager/kata-memory-interface" }
-kata-ml-interface = { path = "../../MlCoordinator/kata-ml-interface" }
+kata-ml-interface = { path = "../../MlCoordinator/kata-ml-interface", optional = true }
 kata-proc-interface = { path = "../../ProcessManager/kata-proc-interface" }
 kata-os-common = { path = "../../kata-os-common" }
 kata-security-interface = { path = "../../SecurityCoordinator/kata-security-interface" }
