@@ -20,18 +20,28 @@ edition = "2021"
 description = "Kata OS DebugConsole"
 
 [features]
-default = []
+default = [
+    "autostart_support",
+    "sparrow_uart_support",
+]
+sparrow_uart_support = ["kata-uart-client"]
+autostart_support = ["default-uart-client"]
 # Log level is Info unless LOG_DEBUG or LOG_TRACE are specified
 LOG_DEBUG = []
 LOG_TRACE = []
 
 [dependencies]
-panic-halt = "0.2.0"
+cpio = { git = "https://github.com/rcore-os/cpio" }
+# Disable default so we don't pull in CString which requires an allocator
+cstr_core = { version = "0.2.3", default-features = false }
+cty = "0.2.1"
+default-uart-client = { path = "../default-uart-client", optional = true }
 kata-io = { path = "../kata-io" }
 kata-os-common = { path = "../../kata-os-common" }
 kata-shell = { path = "../kata-shell" }
-kata-uart-client = { path = "../kata-uart-client" }
+kata-uart-client = { path = "../kata-uart-client", optional = true }
 log = { version = "0.4", features = ["release_max_level_info"] }
+panic-halt = "0.2.0"
 
 [lib]
 name = "kata_debug_console"
