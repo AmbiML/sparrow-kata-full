@@ -1,3 +1,11 @@
+# THIS PROJECT HAS BEEN RENAMED
+
+Due to a naming mishap, we've had to rename "Kata" to "Cantrip".
+
+Please use
+[https://github.com/AmbiML/sparrow-cantrip-full](https://github.com/AmbiML/sparrow-cantrip-full)
+instead.
+
 # Project Sparrow: KataOS
 
 Sparrow is a project to build a low-power secure embedded platform
