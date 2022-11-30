@@ -1,6 +1,7 @@
-# THIS PROJECT HAS BEEN RENAMED
+# This project has been renamed
 
-Due to a naming mishap, we've had to rename "Kata" to "Cantrip".
+Due to a naming mishap, we've had to rename "Kata" to "Cantrip". This repository
+will be removed December 1st.
 
 Please use
 [https://github.com/AmbiML/sparrow-cantrip-full](https://github.com/AmbiML/sparrow-cantrip-full)
